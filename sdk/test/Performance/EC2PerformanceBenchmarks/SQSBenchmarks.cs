@@ -91,7 +91,7 @@ namespace AWSSDK.Benchmarks
             CreateQueueResponse responseCreate = await _sqsClient.CreateQueueAsync(createQueueRequest).ConfigureAwait(false);
             _sqsQueueUrl = responseCreate.QueueUrl;
             Console.WriteLine("SQS Queue Url: {0}", _sqsQueueUrl);
-            _messageBody = Utils.CreateMessage(Constants.KiloSize * 10);
+            _messageBody = Utils.CreateMessage(Constants.KiloSize * 100);
             _messageAttributes = new Dictionary<string, MessageAttributeValue> {
                 {"AttributeA",new MessageAttributeValue{DataType = "String", StringValue = "TestingA" } },
                 {"AttributeB",new MessageAttributeValue{DataType = "String", StringValue = "TestingB" } },

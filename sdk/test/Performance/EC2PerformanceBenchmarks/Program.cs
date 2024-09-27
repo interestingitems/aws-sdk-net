@@ -5,7 +5,6 @@ using BenchmarkDotNet.Exporters.Csv;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet;
-using Amazon.EC2;
 using BenchmarkDotNet.Reports;
 namespace AWSSDK.Benchmarks
 {

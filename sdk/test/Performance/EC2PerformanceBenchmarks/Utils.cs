@@ -12,8 +12,6 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using Amazon.S3;
-using Amazon.S3.Model;
 using ServiceClientGenerator;
 using System;
 using System.Collections.Generic;
@@ -158,12 +156,6 @@ namespace AWSSDK.Benchmarks
                 stringBuilder.Append('A');
             }
             return stringBuilder.ToString();
-        }
-        public static async Task<string> CreateBucket(IAmazonS3 s3Client)
-        {
-            string bucketName = Constants.SdkTestPrefix + DateTime.Now.Ticks;
-            await s3Client.PutBucketAsync(new PutBucketRequest { BucketName = bucketName });
-            return bucketName;
         }
         public static void GenerateFile(string path, long size)
         {

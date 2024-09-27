@@ -23,14 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>    
-	<ProjectReference Include="..\..\..\..\generator\ServiceClientGenerator\ServiceClientGenerator.csproj" />
     <ProjectReference Include="..\..\..\src\Core\AWSSDK.Core.NetStandard.csproj" />
-    <ProjectReference Include="..\..\..\src\Services\CloudWatchLogs\AWSSDK.CloudWatchLogs.NetStandard.csproj" />
-    <ProjectReference Include="..\..\..\src\Services\CloudWatch\AWSSDK.CloudWatch.NetStandard.csproj" />
-    <ProjectReference Include="..\..\..\src\Services\DynamoDBv2\AWSSDK.DynamoDBv2.NetStandard.csproj" />
-    <ProjectReference Include="..\..\..\src\Services\EC2\AWSSDK.EC2.NetStandard.csproj" />
-    <ProjectReference Include="..\..\..\src\Services\S3\AWSSDK.S3.NetStandard.csproj" />
-    <ProjectReference Include="..\..\..\src\Services\SimpleNotificationService\AWSSDK.SimpleNotificationService.NetStandard.csproj" />
     <ProjectReference Include="..\..\..\src\Services\SQS\AWSSDK.SQS.NetStandard.csproj" />
   </ItemGroup>
 
