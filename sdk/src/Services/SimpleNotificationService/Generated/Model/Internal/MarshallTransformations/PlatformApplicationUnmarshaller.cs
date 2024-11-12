@@ -35,7 +35,7 @@ namespace Amazon.SimpleNotificationService.Model.Internal.MarshallTransformation
     /// <summary>
     /// Response Unmarshaller for PlatformApplication Object
     /// </summary>  
-    public class PlatformApplicationUnmarshaller : IUnmarshaller<PlatformApplication, XmlUnmarshallerContext>, IUnmarshaller<PlatformApplication, JsonUnmarshallerContext>
+    public class PlatformApplicationUnmarshaller : IXmlUnmarshaller<PlatformApplication, XmlUnmarshallerContext>, IXmlUnmarshaller<PlatformApplication, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

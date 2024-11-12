@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for SSHPublicKeyMetadata Object
     /// </summary>  
-    public class SSHPublicKeyMetadataUnmarshaller : IUnmarshaller<SSHPublicKeyMetadata, XmlUnmarshallerContext>, IUnmarshaller<SSHPublicKeyMetadata, JsonUnmarshallerContext>
+    public class SSHPublicKeyMetadataUnmarshaller : IXmlUnmarshaller<SSHPublicKeyMetadata, XmlUnmarshallerContext>, IXmlUnmarshaller<SSHPublicKeyMetadata, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

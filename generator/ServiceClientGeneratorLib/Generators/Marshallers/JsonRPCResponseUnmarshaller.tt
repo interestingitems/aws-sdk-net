@@ -9,7 +9,8 @@
     AddCommonUsingStatements();
 #>
 using ThirdParty.Json.LitJson;
-
+using System.Text.Json;
+using Amazon.Util;
 #pragma warning disable CS0612,CS0618
 namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
 {
@@ -23,10 +24,11 @@ namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
         /// </summary>  
         /// <param name="context"></param>
         /// <returns></returns>
-        public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
+        public AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             <#=this.UnmarshallerBaseName #>Response response = new <#=this.Operation.Name #>Response();
-
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
 <#
     var payload = this.Operation.ResponsePayloadMember;
     var unmarshallPayload = payload != null && payload.IsStructure;
@@ -92,21 +94,21 @@ namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
         {
 #>
             var unmarshaller = <#= payload.DetermineTypeUnmarshallerInstantiate() #>;
-            response.<#=payload.PropertyName#> = unmarshaller.Unmarshall(context);
+            response.<#=payload.PropertyName#> = unmarshaller.Unmarshall(context, ref reader);
 <#
         }
 		else if (this.IsWrapped)
 		{
 #>
-			response.<#=this.WrappedResultMember#> = <#=this.Structure.Name#>Unmarshaller.Instance.Unmarshall(context);
+			response.<#=this.WrappedResultMember#> = <#=this.Structure.Name#>Unmarshaller.Instance.Unmarshall(context, ref reader);
 <#
 		}
         else
         {
 #>
-            context.Read();
+            context.Read(ref reader);
             int targetDepth = context.CurrentDepth;
-            while (context.ReadAtDepth(targetDepth))
+            while (context.ReadAtDepth(targetDepth, ref reader))
             {
 <#
         
@@ -116,7 +118,7 @@ namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
                 if (context.TestExpression("<#=member.MarshallName#>", targetDepth))
                 {
                     var unmarshaller = <#= member.DetermineTypeUnmarshallerInstantiate() #>;
-                    response.<#=member.PropertyName#> = unmarshaller.Unmarshall(context);
+                    response.<#=member.PropertyName#> = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }
 <#
@@ -142,7 +144,9 @@ namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public override AmazonServiceException UnmarshallException(JsonUnmarshallerContext context, Exception innerException, HttpStatusCode statusCode)
         {
-            var errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context);
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
+            var errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context, ref reader);
             errorResponse.InnerException = innerException;
             errorResponse.StatusCode = statusCode;
 
@@ -172,7 +176,7 @@ namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
 #>
                 if (errorResponse.Code != null && errorResponse.Code.Equals("<#=exception.Code #>"))
                 {
-                    return <#=exception.Name#>Unmarshaller.Instance.Unmarshall(contextCopy, errorResponse);
+                    return <#=exception.Name#>Unmarshaller.Instance.Unmarshall(contextCopy, errorResponse, ref reader);
                 }
 <#
     }

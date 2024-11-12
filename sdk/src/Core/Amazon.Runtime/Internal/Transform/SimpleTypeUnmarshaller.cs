@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-
+using System.Text.Json;
 using Amazon.Runtime.Internal.Util;
 using Amazon.Util;
 using ThirdParty.Json.LitJson;
@@ -32,10 +32,10 @@ namespace Amazon.Runtime.Internal.Transform
             return (T)Convert.ChangeType(text, typeof(T), CultureInfo.InvariantCulture);
         }
 
-        public static T Unmarshall(JsonUnmarshallerContext context)
+        public static T Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
             if (text == null)
                 return default(T);
 
@@ -46,7 +46,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for int fields
     /// </summary>
-    public class IntUnmarshaller : IUnmarshaller<int, XmlUnmarshallerContext>, IUnmarshaller<int, JsonUnmarshallerContext>
+    public class IntUnmarshaller : IXmlUnmarshaller<int, XmlUnmarshallerContext>, IJsonUnmarshaller<int, JsonUnmarshallerContext>
     {
         private IntUnmarshaller() { }
 
@@ -69,9 +69,9 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<int>.Unmarshall(context);
         }
-        public int Unmarshall(JsonUnmarshallerContext context)
+        public int Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            return SimpleTypeUnmarshaller<int>.Unmarshall(context);
+            return SimpleTypeUnmarshaller<int>.Unmarshall(context, ref reader);
         }
     }
 
@@ -81,7 +81,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// This unmarshaller is not implemented for XML context, as XML responses
     /// will null elements (xsi:nil='true') will be skipped by the XML parser.
     /// </summary>
-    public class NullableIntUnmarshaller : IUnmarshaller<int?, XmlUnmarshallerContext>, IUnmarshaller<int?, JsonUnmarshallerContext>
+    public class NullableIntUnmarshaller : IXmlUnmarshaller<int?, XmlUnmarshallerContext>, IJsonUnmarshaller<int?, JsonUnmarshallerContext>
     {   
         private NullableIntUnmarshaller() { }
 
@@ -112,10 +112,10 @@ namespace Amazon.Runtime.Internal.Transform
             return int.Parse(text, CultureInfo.InvariantCulture);
         }
 
-        public int? Unmarshall(JsonUnmarshallerContext context)
+        public int? Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
 
             if (text == null)
             {
@@ -128,7 +128,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for long fields
     /// </summary>
-    public class LongUnmarshaller : IUnmarshaller<long, XmlUnmarshallerContext>, IUnmarshaller<long, JsonUnmarshallerContext>
+    public class LongUnmarshaller : IXmlUnmarshaller<long, XmlUnmarshallerContext>, IJsonUnmarshaller<long, JsonUnmarshallerContext>
     {
         private LongUnmarshaller() { }
 
@@ -151,13 +151,13 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<long>.Unmarshall(context);
         }
-        public long Unmarshall(JsonUnmarshallerContext context)
+        public long Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            return SimpleTypeUnmarshaller<long>.Unmarshall(context);
+            return SimpleTypeUnmarshaller<long>.Unmarshall(context, ref reader);
         }
     }
 
-    public class NullableLongUnmarshaller : IUnmarshaller<long?, XmlUnmarshallerContext>, IUnmarshaller<long?, JsonUnmarshallerContext>
+    public class NullableLongUnmarshaller : IXmlUnmarshaller<long?, XmlUnmarshallerContext>, IJsonUnmarshaller<long?, JsonUnmarshallerContext>
     {
         private NullableLongUnmarshaller() { }
 
@@ -183,10 +183,10 @@ namespace Amazon.Runtime.Internal.Transform
             return long.Parse(text, CultureInfo.InvariantCulture);
         }
 
-        public long? Unmarshall(JsonUnmarshallerContext context)
+        public long? Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
 
             if (text == null)
             {
@@ -199,7 +199,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for float fields
     /// </summary>
-    public class FloatUnmarshaller : IUnmarshaller<float, XmlUnmarshallerContext>, IUnmarshaller<float, JsonUnmarshallerContext>
+    public class FloatUnmarshaller : IXmlUnmarshaller<float, XmlUnmarshallerContext>, IJsonUnmarshaller<float, JsonUnmarshallerContext>
     {
         private FloatUnmarshaller() { }
 
@@ -222,16 +222,16 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<float>.Unmarshall(context);
         }
-        public float Unmarshall(JsonUnmarshallerContext context)
+        public float Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            return SimpleTypeUnmarshaller<float>.Unmarshall(context);
+            return SimpleTypeUnmarshaller<float>.Unmarshall(context, ref reader);
         }
     }
 
     /// <summary>
     /// Unmarshaller for float fields
     /// </summary>
-    public class NullableFloatUnmarshaller : IUnmarshaller<float?, XmlUnmarshallerContext>, IUnmarshaller<float?, JsonUnmarshallerContext>
+    public class NullableFloatUnmarshaller : IXmlUnmarshaller<float?, XmlUnmarshallerContext>, IJsonUnmarshaller<float?, JsonUnmarshallerContext>
     {
         private NullableFloatUnmarshaller() { }
 
@@ -257,10 +257,10 @@ namespace Amazon.Runtime.Internal.Transform
             return float.Parse(text, CultureInfo.InvariantCulture);
         }
 
-        public float? Unmarshall(JsonUnmarshallerContext context)
+        public float? Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
 
             if (text == null)
             {
@@ -274,7 +274,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for double fields
     /// </summary>
-    public class DoubleUnmarshaller : IUnmarshaller<double, XmlUnmarshallerContext>, IUnmarshaller<double, JsonUnmarshallerContext>
+    public class DoubleUnmarshaller : IXmlUnmarshaller<double, XmlUnmarshallerContext>, IJsonUnmarshaller<double, JsonUnmarshallerContext>
     {
         private DoubleUnmarshaller() { }
 
@@ -298,16 +298,16 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<double>.Unmarshall(context);
         }
-        public double Unmarshall(JsonUnmarshallerContext context)
+        public double Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            return SimpleTypeUnmarshaller<double>.Unmarshall(context);
+            return SimpleTypeUnmarshaller<double>.Unmarshall(context, ref reader);
         }
     }
 
     /// <summary>
     /// Unmarshaller for double fields
     /// </summary>
-    public class NullableDoubleUnmarshaller : IUnmarshaller<double?, XmlUnmarshallerContext>, IUnmarshaller<double?, JsonUnmarshallerContext>
+    public class NullableDoubleUnmarshaller : IXmlUnmarshaller<double?, XmlUnmarshallerContext>, IJsonUnmarshaller<double?, JsonUnmarshallerContext>
     {
         private NullableDoubleUnmarshaller() { }
 
@@ -333,10 +333,10 @@ namespace Amazon.Runtime.Internal.Transform
             return double.Parse(text, CultureInfo.InvariantCulture);
         }
 
-        public double? Unmarshall(JsonUnmarshallerContext context)
+        public double? Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
 
             if (text == null)
             {
@@ -349,7 +349,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for decimal fields
     /// </summary>
-    public class DecimalUnmarshaller : IUnmarshaller<decimal, XmlUnmarshallerContext>, IUnmarshaller<decimal, JsonUnmarshallerContext>
+    public class DecimalUnmarshaller : IXmlUnmarshaller<decimal, XmlUnmarshallerContext>, IJsonUnmarshaller<decimal, JsonUnmarshallerContext>
     {
         private DecimalUnmarshaller() { }
 
@@ -372,16 +372,16 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<decimal>.Unmarshall(context);
         }
-        public decimal Unmarshall(JsonUnmarshallerContext context)
+        public decimal Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            return SimpleTypeUnmarshaller<decimal>.Unmarshall(context);
+            return SimpleTypeUnmarshaller<decimal>.Unmarshall(context, ref reader);
         }
     }
 
     /// <summary>
     /// Unmarshaller for decimal fields
     /// </summary>
-    public class NullableDecimalUnmarshaller : IUnmarshaller<decimal?, XmlUnmarshallerContext>, IUnmarshaller<decimal?, JsonUnmarshallerContext>
+    public class NullableDecimalUnmarshaller : IXmlUnmarshaller<decimal?, XmlUnmarshallerContext>, IJsonUnmarshaller<decimal?, JsonUnmarshallerContext>
     {
         private NullableDecimalUnmarshaller() { }
 
@@ -407,10 +407,10 @@ namespace Amazon.Runtime.Internal.Transform
             return decimal.Parse(text, CultureInfo.InvariantCulture);
         }
 
-        public decimal? Unmarshall(JsonUnmarshallerContext context)
+        public decimal? Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
 
             if (text == null)
             {
@@ -423,7 +423,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for bool fields
     /// </summary>
-    public class BoolUnmarshaller : IUnmarshaller<bool, XmlUnmarshallerContext>, IUnmarshaller<bool, JsonUnmarshallerContext>
+    public class BoolUnmarshaller : IXmlUnmarshaller<bool, XmlUnmarshallerContext>, IJsonUnmarshaller<bool, JsonUnmarshallerContext>
     {
         private BoolUnmarshaller() { }
 
@@ -446,16 +446,16 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<bool>.Unmarshall(context);
         }
-        public bool Unmarshall(JsonUnmarshallerContext context)
+        public bool Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            return SimpleTypeUnmarshaller<bool>.Unmarshall(context);
+            return SimpleTypeUnmarshaller<bool>.Unmarshall(context, ref reader);
         }
     }
 
     /// <summary>
     /// Unmarshaller for bool fields
     /// </summary>
-    public class NullableBoolUnmarshaller : IUnmarshaller<bool?, XmlUnmarshallerContext>, IUnmarshaller<bool?, JsonUnmarshallerContext>
+    public class NullableBoolUnmarshaller : IXmlUnmarshaller<bool?, XmlUnmarshallerContext>, IJsonUnmarshaller<bool?, JsonUnmarshallerContext>
     {
         private NullableBoolUnmarshaller() { }
 
@@ -481,10 +481,10 @@ namespace Amazon.Runtime.Internal.Transform
             return bool.Parse(text);
         }
 
-        public bool? Unmarshall(JsonUnmarshallerContext context)
+        public bool? Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
             if(string.IsNullOrEmpty(text))
             {
                 return null;
@@ -497,7 +497,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for string fields
     /// </summary>
-    public class StringUnmarshaller : IUnmarshaller<string, XmlUnmarshallerContext>, IUnmarshaller<string, JsonUnmarshallerContext>
+    public class StringUnmarshaller : IXmlUnmarshaller<string, XmlUnmarshallerContext>, IJsonUnmarshaller<string, JsonUnmarshallerContext>
     {
         private StringUnmarshaller() { }
 
@@ -520,16 +520,16 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<string>.Unmarshall(context);
         }
-        public string Unmarshall(JsonUnmarshallerContext context)
+        public string Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            return SimpleTypeUnmarshaller<string>.Unmarshall(context);
+            return SimpleTypeUnmarshaller<string>.Unmarshall(context, ref reader);
         }
     }
 
     /// <summary>
     /// Unmarshaller for byte fields
     /// </summary>
-    public class ByteUnmarshaller : IUnmarshaller<byte, XmlUnmarshallerContext>, IUnmarshaller<byte, JsonUnmarshallerContext>
+    public class ByteUnmarshaller : IXmlUnmarshaller<byte, XmlUnmarshallerContext>, IJsonUnmarshaller<byte, JsonUnmarshallerContext>
     {
         private ByteUnmarshaller() { }
 
@@ -552,16 +552,16 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<byte>.Unmarshall(context);
         }
-        public byte Unmarshall(JsonUnmarshallerContext context)
+        public byte Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            return SimpleTypeUnmarshaller<byte>.Unmarshall(context);
+            return SimpleTypeUnmarshaller<byte>.Unmarshall(context, ref reader);
         }
     }
 
     /// <summary>
     /// Unmarshaller for DateTime fields
     /// </summary>
-    public class DateTimeUnmarshaller : IUnmarshaller<DateTime, XmlUnmarshallerContext>, IUnmarshaller<DateTime, JsonUnmarshallerContext>
+    public class DateTimeUnmarshaller : IXmlUnmarshaller<DateTime, XmlUnmarshallerContext>, IJsonUnmarshaller<DateTime, JsonUnmarshallerContext>
     {
         private DateTimeUnmarshaller() { }
 
@@ -586,10 +586,10 @@ namespace Amazon.Runtime.Internal.Transform
             return UnmarshallInternal(text, treatAsNullable: false).Value;
         }
 
-        public DateTime Unmarshall(JsonUnmarshallerContext context)
+        public DateTime Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
             return UnmarshallInternal(text, treatAsNullable: false).Value;
         }
 
@@ -627,7 +627,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// This unmarshaller is not implemented for XML context, as XML responses
     /// will null elements (xsi:nil='true') will be skipped by the XML parser.
     /// </summary>
-    public class NullableDateTimeUnmarshaller : IUnmarshaller<DateTime?, XmlUnmarshallerContext>, IUnmarshaller<DateTime?, JsonUnmarshallerContext>
+    public class NullableDateTimeUnmarshaller : IXmlUnmarshaller<DateTime?, XmlUnmarshallerContext>, IJsonUnmarshaller<DateTime?, JsonUnmarshallerContext>
     {
         private NullableDateTimeUnmarshaller() { }
 
@@ -652,15 +652,15 @@ namespace Amazon.Runtime.Internal.Transform
             return DateTimeUnmarshaller.UnmarshallInternal(text, treatAsNullable: true);
         }
 
-        public DateTime? Unmarshall(JsonUnmarshallerContext context)
+        public DateTime? Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
             return DateTimeUnmarshaller.UnmarshallInternal(text, treatAsNullable: true);
         }
     }
 
-    public class DateTimeEpochLongMillisecondsUnmarshaller : IUnmarshaller<DateTime, XmlUnmarshallerContext>, IUnmarshaller<DateTime, JsonUnmarshallerContext>
+    public class DateTimeEpochLongMillisecondsUnmarshaller : IXmlUnmarshaller<DateTime, XmlUnmarshallerContext>, IJsonUnmarshaller<DateTime, JsonUnmarshallerContext>
     {
         private DateTimeEpochLongMillisecondsUnmarshaller() { }
 
@@ -683,15 +683,15 @@ namespace Amazon.Runtime.Internal.Transform
         {
             return SimpleTypeUnmarshaller<DateTime>.Unmarshall(context);
         }
-        public DateTime Unmarshall(JsonUnmarshallerContext context)
+        public DateTime Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            long millseconds = LongUnmarshaller.Instance.Unmarshall(context);
+            long millseconds = LongUnmarshaller.Instance.Unmarshall(context, ref reader);
             var ret = Amazon.Util.AWSSDKUtils.EPOCH_START.AddMilliseconds(millseconds);
             return ret;
         }
     }
 
-    public class NullableDateTimeEpochLongMillisecondsUnmarshaller : IUnmarshaller<DateTime?, XmlUnmarshallerContext>, IUnmarshaller<DateTime?, JsonUnmarshallerContext>
+    public class NullableDateTimeEpochLongMillisecondsUnmarshaller : IXmlUnmarshaller<DateTime?, XmlUnmarshallerContext>, IJsonUnmarshaller<DateTime?, JsonUnmarshallerContext>
     {
         private NullableDateTimeEpochLongMillisecondsUnmarshaller() { }
 
@@ -720,10 +720,10 @@ namespace Amazon.Runtime.Internal.Transform
             return ret;
         }
 
-        public DateTime? Unmarshall(JsonUnmarshallerContext context)
+        public DateTime? Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            string text = context.ReadText();
+            context.Read(ref reader);
+            string text = context.ReadText(ref reader);
 
             if (text == null)
             {
@@ -739,7 +739,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for MemoryStream fields
     /// </summary>
-    public class MemoryStreamUnmarshaller : IUnmarshaller<MemoryStream, XmlUnmarshallerContext>, IUnmarshaller<MemoryStream, JsonUnmarshallerContext>
+    public class MemoryStreamUnmarshaller : IXmlUnmarshaller<MemoryStream, XmlUnmarshallerContext>, IJsonUnmarshaller<MemoryStream, JsonUnmarshallerContext>
     {
         private MemoryStreamUnmarshaller() { }
 
@@ -765,13 +765,13 @@ namespace Amazon.Runtime.Internal.Transform
             return stream;
         }
 
-        public MemoryStream Unmarshall(JsonUnmarshallerContext context)
+        public MemoryStream Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read();
-            if (context.CurrentTokenType == JsonToken.Null)
+            context.Read(ref reader);
+            if (context.CurrentTokenType == JsonTokenType.Null)
                 return null;
 
-            byte[] bytes = Convert.FromBase64String(context.ReadText());
+            byte[] bytes = Convert.FromBase64String(context.ReadText(ref reader));
             MemoryStream stream = new MemoryStream(bytes, 0, bytes.Length, true, true);
             return stream;
         }
@@ -780,7 +780,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <summary>
     /// Unmarshaller for ResponseMetadata
     /// </summary>
-    public class ResponseMetadataUnmarshaller : IUnmarshaller<ResponseMetadata, XmlUnmarshallerContext>, IUnmarshaller<ResponseMetadata, JsonUnmarshallerContext>
+    public class ResponseMetadataUnmarshaller : IXmlUnmarshaller<ResponseMetadata, XmlUnmarshallerContext>, IJsonUnmarshaller<ResponseMetadata, JsonUnmarshallerContext>
     {
         private ResponseMetadataUnmarshaller() { }
 
@@ -819,17 +819,17 @@ namespace Amazon.Runtime.Internal.Transform
 
             return metadata;
         }
-        public ResponseMetadata Unmarshall(JsonUnmarshallerContext context)
+        public ResponseMetadata Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
             ResponseMetadata metadata = new ResponseMetadata();
             int depth = context.CurrentDepth;
 
             while (context.CurrentDepth >= depth)
             {
-                context.Read();
+                context.Read(ref reader);
                 if (context.TestExpression("ResponseMetadata/RequestId"))
                 {
-                    metadata.RequestId = StringUnmarshaller.GetInstance().Unmarshall(context);
+                    metadata.RequestId = StringUnmarshaller.GetInstance().Unmarshall(context, ref reader);
                 }
             }
 
@@ -838,10 +838,10 @@ namespace Amazon.Runtime.Internal.Transform
     }
 
     public class KeyValueUnmarshaller<K, V, KUnmarshaller, VUnmarshaller> :
-    IUnmarshaller<KeyValuePair<K, V>, XmlUnmarshallerContext>, 
-    IUnmarshaller<KeyValuePair<K, V>, JsonUnmarshallerContext>
-        where KUnmarshaller : IUnmarshaller<K, XmlUnmarshallerContext>, IUnmarshaller<K, JsonUnmarshallerContext>
-        where VUnmarshaller : IUnmarshaller<V, XmlUnmarshallerContext>, IUnmarshaller<V, JsonUnmarshallerContext>
+    IXmlUnmarshaller<KeyValuePair<K, V>, XmlUnmarshallerContext>, 
+    IJsonUnmarshaller<KeyValuePair<K, V>, JsonUnmarshallerContext>
+        where KUnmarshaller : IXmlUnmarshaller<K, XmlUnmarshallerContext>, IJsonUnmarshaller<K, JsonUnmarshallerContext>
+        where VUnmarshaller : IXmlUnmarshaller<V, XmlUnmarshallerContext>, IJsonUnmarshaller<V, JsonUnmarshallerContext>
     {
         private KUnmarshaller keyUnmarshaller;
         private VUnmarshaller valueUnmarshaller;
@@ -883,31 +883,37 @@ namespace Amazon.Runtime.Internal.Transform
             return new KeyValuePair<K, V>(key, value);
         }
 
-        public KeyValuePair<K, V> Unmarshall(JsonUnmarshallerContext context)
+        public KeyValuePair<K, V> Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            K key = this.keyUnmarshaller.Unmarshall(context);
-            V value = this.valueUnmarshaller.Unmarshall(context);
+            K key = this.keyUnmarshaller.Unmarshall(context, ref reader);
+            V value = this.valueUnmarshaller.Unmarshall(context, ref reader);
 
             return new KeyValuePair<K, V>(key, value);
         }
     }
 
-    public class ListUnmarshaller<I, IUnmarshaller> : IUnmarshaller<List<I>, XmlUnmarshallerContext>, IUnmarshaller<List<I>, JsonUnmarshallerContext>
-        where IUnmarshaller : IUnmarshaller<I, XmlUnmarshallerContext>, IUnmarshaller<I, JsonUnmarshallerContext>
+    public class ListUnmarshaller<T>
     {
-        private IUnmarshaller iUnmarshaller;
+        private IXmlUnmarshaller<XmlUnmarshallerContext, T> xmlUnmarshaller;
+        private IJsonUnmarshaller <JsonUnmarshallerContext, T> jsonUnmarshaller;
 
-        public ListUnmarshaller(IUnmarshaller iUnmarshaller)
+
+        public ListUnmarshaller(IXmlUnmarshaller<XmlUnmarshallerContext, T> xmlUnmarshaller)
         {
-            this.iUnmarshaller = iUnmarshaller;
+            this.xmlUnmarshaller = xmlUnmarshaller;
         }
-        
-        public List<I> Unmarshall(XmlUnmarshallerContext context)
+
+        public ListUnmarshaller(IJsonUnmarshaller<JsonUnmarshallerContext, T> jsonUnmarshaller)
+        {
+            this.jsonUnmarshaller = jsonUnmarshaller;
+        }
+
+        public List<T> Unmarshall(XmlUnmarshallerContext context)
         {
             int originalDepth = context.CurrentDepth;
             int targetDepth = originalDepth + 1;
 
-            var list = new List<I>();
+            var list = new List<T>();
             // If the list is nested, we don't want the current depth to be less than the original depth
             // because then, context.Read() will return true if there are more elements and all the
             // list's elements will be unmarshalled as one list instead of multiple nested lists.
@@ -917,20 +923,20 @@ namespace Amazon.Runtime.Internal.Transform
                 {
                     if (context.TestExpression("member", targetDepth))
                     {
-                        var item = iUnmarshaller.Unmarshall(context);
+                        var item = xmlUnmarshaller.Unmarshall(context);
                         list.Add(item);
                     }
                 }
             }
             return list;
         }
-        public List<I> Unmarshall(JsonUnmarshallerContext context)
+        public List<T> Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read(); // Read [ or null
-            if (context.CurrentTokenType == JsonToken.Null)
+            context.Read(ref reader); // Read [ or null
+            if (context.CurrentTokenType == JsonTokenType.Null)
             {
                 if (AWSConfigs.InitializeCollections)
-                    return new List<I>();
+                    return new List<T>();
                 else
                     return null;
             }
@@ -939,19 +945,20 @@ namespace Amazon.Runtime.Internal.Transform
             // If a list is present in the response, use AlwaysSendList,
             // so if the response was empty, reusing the object in the request we will
             // end up sending the same empty collection back.
-            List<I> list = new AlwaysSendList<I>();
-            while (!context.Peek(JsonToken.ArrayEnd)) // Peek for ]
+            List<T> list = new AlwaysSendList<I>();
+            while (!context.Peek(JsonTokenType.EndArray, ref reader)) // Peek for ]
             {
-                list.Add(iUnmarshaller.Unmarshall(context));
+                list.Add(jsonUnmarshaller.Unmarshall(context, ref reader));
             }
-            context.Read(); // Read ]
+            context.Read(ref reader); // Read ]
             return list;
         }
     }
 
-    public class DictionaryUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> : IUnmarshaller<Dictionary<TKey, TValue>, XmlUnmarshallerContext>, IUnmarshaller<Dictionary<TKey, TValue>, JsonUnmarshallerContext>
-        where TKeyUnmarshaller : IUnmarshaller<TKey, XmlUnmarshallerContext>, IUnmarshaller<TKey, JsonUnmarshallerContext>
-        where TValueUnmarshaller : IUnmarshaller<TValue, XmlUnmarshallerContext>, IUnmarshaller<TValue, JsonUnmarshallerContext>
+
+    public class DictionaryUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> : IXmlUnmarshaller<Dictionary<TKey, TValue>, XmlUnmarshallerContext>, IJsonUnmarshaller<Dictionary<TKey, TValue>, JsonUnmarshallerContext>
+        where TKeyUnmarshaller : IXmlUnmarshaller<TKey, XmlUnmarshallerContext>, IJsonUnmarshaller<TKey, JsonUnmarshallerContext>
+        where TValueUnmarshaller : IXmlUnmarshaller<TValue, XmlUnmarshallerContext>, IJsonUnmarshaller<TValue, JsonUnmarshallerContext>
     {
         private KeyValueUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> KVUnmarshaller;
 
@@ -984,10 +991,10 @@ namespace Amazon.Runtime.Internal.Transform
             return dictionary;
         }
 
-        public Dictionary<TKey, TValue> Unmarshall(JsonUnmarshallerContext context)
+        public Dictionary<TKey, TValue> Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
-            context.Read(); // Read { or null
-            if (context.CurrentTokenType == JsonToken.Null)
+            context.Read(ref reader); // Read { or null
+            if (context.CurrentTokenType == JsonTokenType.Null)
             {
                 if (AWSConfigs.InitializeCollections)
                     return new Dictionary<TKey, TValue>();
@@ -1000,12 +1007,12 @@ namespace Amazon.Runtime.Internal.Transform
             // so if the response was empty, reusing the object in the request we will
             // end up sending the same empty collection back.
             Dictionary<TKey, TValue> dictionary = new AlwaysSendDictionary<TKey, TValue>();
-            while (!context.Peek(JsonToken.ObjectEnd)) // Peek }
+            while (!context.Peek(JsonTokenType.EndObject, ref reader)) // Peek }
             {
-                KeyValuePair<TKey, TValue> item = KVUnmarshaller.Unmarshall(context);
+                KeyValuePair<TKey, TValue> item = KVUnmarshaller.Unmarshall(context, ref reader);
                 dictionary.Add(item.Key, item.Value);
             }
-            context.Read(); // Read }
+            context.Read(ref reader); // Read }
             return dictionary;
 
         }

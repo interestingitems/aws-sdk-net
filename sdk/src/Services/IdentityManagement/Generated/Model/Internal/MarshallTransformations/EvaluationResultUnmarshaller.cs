@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for EvaluationResult Object
     /// </summary>  
-    public class EvaluationResultUnmarshaller : IUnmarshaller<EvaluationResult, XmlUnmarshallerContext>, IUnmarshaller<EvaluationResult, JsonUnmarshallerContext>
+    public class EvaluationResultUnmarshaller : IXmlUnmarshaller<EvaluationResult, XmlUnmarshallerContext>, IXmlUnmarshaller<EvaluationResult, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

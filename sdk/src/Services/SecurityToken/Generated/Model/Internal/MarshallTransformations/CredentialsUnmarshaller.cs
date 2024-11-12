@@ -35,7 +35,7 @@ namespace Amazon.SecurityToken.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for Credentials Object
     /// </summary>  
-    public class CredentialsUnmarshaller : IUnmarshaller<Credentials, XmlUnmarshallerContext>, IUnmarshaller<Credentials, JsonUnmarshallerContext>
+    public class CredentialsUnmarshaller : IXmlUnmarshaller<Credentials, XmlUnmarshallerContext>, IXmlUnmarshaller<Credentials, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for RoleLastUsed Object
     /// </summary>  
-    public class RoleLastUsedUnmarshaller : IUnmarshaller<RoleLastUsed, XmlUnmarshallerContext>, IUnmarshaller<RoleLastUsed, JsonUnmarshallerContext>
+    public class RoleLastUsedUnmarshaller : IXmlUnmarshaller<RoleLastUsed, XmlUnmarshallerContext>, IXmlUnmarshaller<RoleLastUsed, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

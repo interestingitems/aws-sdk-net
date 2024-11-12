@@ -321,23 +321,9 @@ namespace ServiceClientGenerator.Generators.Marshallers
             }          
             return unmarshalledObject;
         }
-        
-        /// <summary>
-        /// Unmarshaller the response from the service to the response class.
-        /// </summary>  
-        /// <param name=""context""></param>
-        /// <returns></returns>
-        public ");
+");
             
-            #line 128 "C:\Dev\Repos\aws-sdk-net-staging\generator\ServiceClientGeneratorLib\Generators\Marshallers\RestXmlStructureUnmarshaller.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.UnmarshallerBaseName));
-            
-            #line default
-            #line hidden
-            this.Write(" Unmarshall(JsonUnmarshallerContext context)\r\n        {\r\n            throw new No" +
-                    "tImplementedException();\r\n        }\r\n\r\n");
-            
-            #line 133 "C:\Dev\Repos\aws-sdk-net-staging\generator\ServiceClientGeneratorLib\Generators\Marshallers\RestXmlStructureUnmarshaller.tt"
+            #line 122 "C:\Dev\Repos\aws-sdk-net-staging\generator\ServiceClientGeneratorLib\Generators\Marshallers\RestXmlStructureUnmarshaller.tt"
 
     this.AddStructureSingletonMethod();
 

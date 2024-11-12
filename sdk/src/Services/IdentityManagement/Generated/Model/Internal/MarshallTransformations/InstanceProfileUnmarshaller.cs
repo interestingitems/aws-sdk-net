@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for InstanceProfile Object
     /// </summary>  
-    public class InstanceProfileUnmarshaller : IUnmarshaller<InstanceProfile, XmlUnmarshallerContext>, IUnmarshaller<InstanceProfile, JsonUnmarshallerContext>
+    public class InstanceProfileUnmarshaller : IXmlUnmarshaller<InstanceProfile, XmlUnmarshallerContext>, IXmlUnmarshaller<InstanceProfile, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

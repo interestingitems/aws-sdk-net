@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for AccessKey Object
     /// </summary>  
-    public class AccessKeyUnmarshaller : IUnmarshaller<AccessKey, XmlUnmarshallerContext>, IUnmarshaller<AccessKey, JsonUnmarshallerContext>
+    public class AccessKeyUnmarshaller : IXmlUnmarshaller<AccessKey, XmlUnmarshallerContext>, IXmlUnmarshaller<AccessKey, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

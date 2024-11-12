@@ -37,6 +37,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using Amazon.Runtime.Endpoints;
 using ThirdParty.RuntimeBackports;
+using Amazon.Runtime.Internal.Transform;
 
 #if AWS_ASYNC_API
 using System.Threading.Tasks;
@@ -846,6 +847,20 @@ namespace Amazon.Util
         public static void CopyStream(Stream source, Stream destination, int bufferSize)
         {
             source.CopyTo(destination, bufferSize);
+        }
+        /// <summary>
+        /// Utilitiy method for converting the base stream of a the JsonUnmarshallerContext to a ReadOnlySpan
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static ReadOnlySpan<byte> ConvertStreamToReadOnlySpan(JsonUnmarshallerContext context)
+        {
+            MemoryStream streamBuffer = new MemoryStream();
+            context.Stream.CopyTo(streamBuffer);
+            context.Stream.Position = 0;
+            streamBuffer.Position = 0;
+            return new ReadOnlySpan<byte>(streamBuffer.ToArray());
+            
         }
 #endregion
 

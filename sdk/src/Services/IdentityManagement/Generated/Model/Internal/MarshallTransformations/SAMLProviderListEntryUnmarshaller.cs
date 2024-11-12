@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for SAMLProviderListEntry Object
     /// </summary>  
-    public class SAMLProviderListEntryUnmarshaller : IUnmarshaller<SAMLProviderListEntry, XmlUnmarshallerContext>, IUnmarshaller<SAMLProviderListEntry, JsonUnmarshallerContext>
+    public class SAMLProviderListEntryUnmarshaller : IXmlUnmarshaller<SAMLProviderListEntry, XmlUnmarshallerContext>, IXmlUnmarshaller<SAMLProviderListEntry, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

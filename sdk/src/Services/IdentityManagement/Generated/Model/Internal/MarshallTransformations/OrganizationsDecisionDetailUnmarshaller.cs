@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for OrganizationsDecisionDetail Object
     /// </summary>  
-    public class OrganizationsDecisionDetailUnmarshaller : IUnmarshaller<OrganizationsDecisionDetail, XmlUnmarshallerContext>, IUnmarshaller<OrganizationsDecisionDetail, JsonUnmarshallerContext>
+    public class OrganizationsDecisionDetailUnmarshaller : IXmlUnmarshaller<OrganizationsDecisionDetail, XmlUnmarshallerContext>, IXmlUnmarshaller<OrganizationsDecisionDetail, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

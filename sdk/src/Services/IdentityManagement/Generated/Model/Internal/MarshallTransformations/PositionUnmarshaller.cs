@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for Position Object
     /// </summary>  
-    public class PositionUnmarshaller : IUnmarshaller<Position, XmlUnmarshallerContext>, IUnmarshaller<Position, JsonUnmarshallerContext>
+    public class PositionUnmarshaller : IXmlUnmarshaller<Position, XmlUnmarshallerContext>, IXmlUnmarshaller<Position, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

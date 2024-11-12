@@ -22,6 +22,7 @@ using System.IO;
 using Amazon.Util;
 using Amazon.Runtime.Internal.Util;
 using System.Globalization;
+using System.Text.Json;
 
 namespace Amazon.Runtime.Internal.Transform
 {
@@ -95,7 +96,7 @@ namespace Amazon.Runtime.Internal.Transform
 
         public abstract AmazonWebServiceResponse Unmarshall(UnmarshallerContext input);
 
-#endregion
+        #endregion
 
         public static string GetDefaultErrorMessage<T>() where T : Exception
         {
@@ -154,7 +155,7 @@ namespace Amazon.Runtime.Internal.Transform
         }
 
         public abstract AmazonWebServiceResponse Unmarshall(XmlUnmarshallerContext input);
-
+        
         public abstract AmazonServiceException UnmarshallException(XmlUnmarshallerContext input, Exception innerException, HttpStatusCode statusCode);
 
         protected override UnmarshallerContext ConstructUnmarshallerContext(Stream responseStream, bool maintainResponseBody, IWebResponseData response, bool isException)
@@ -232,13 +233,12 @@ namespace Amazon.Runtime.Internal.Transform
             JsonUnmarshallerContext context = input as JsonUnmarshallerContext;
             if (context == null)
                 throw new InvalidOperationException("Unsupported UnmarshallerContext");
-
+            var span = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(span);
             var responseException = this.UnmarshallException(context, innerException, statusCode);
             responseException.RequestId = context.ResponseData.GetHeaderValue(HeaderKeys.RequestIdHeader);
             return responseException;
         }
-
-        public abstract AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext input);
 
         public abstract AmazonServiceException UnmarshallException(JsonUnmarshallerContext input, Exception innerException, HttpStatusCode statusCode);
 

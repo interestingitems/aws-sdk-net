@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for Role Object
     /// </summary>  
-    public class RoleUnmarshaller : IUnmarshaller<Role, XmlUnmarshallerContext>, IUnmarshaller<Role, JsonUnmarshallerContext>
+    public class RoleUnmarshaller : IXmlUnmarshaller<Role, XmlUnmarshallerContext>, IXmlUnmarshaller<Role, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

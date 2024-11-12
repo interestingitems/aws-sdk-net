@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for AccessDetail Object
     /// </summary>  
-    public class AccessDetailUnmarshaller : IUnmarshaller<AccessDetail, XmlUnmarshallerContext>, IUnmarshaller<AccessDetail, JsonUnmarshallerContext>
+    public class AccessDetailUnmarshaller : IXmlUnmarshaller<AccessDetail, XmlUnmarshallerContext>, IXmlUnmarshaller<AccessDetail, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

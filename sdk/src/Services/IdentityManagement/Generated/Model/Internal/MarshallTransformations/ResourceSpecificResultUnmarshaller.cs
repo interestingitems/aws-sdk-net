@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for ResourceSpecificResult Object
     /// </summary>  
-    public class ResourceSpecificResultUnmarshaller : IUnmarshaller<ResourceSpecificResult, XmlUnmarshallerContext>, IUnmarshaller<ResourceSpecificResult, JsonUnmarshallerContext>
+    public class ResourceSpecificResultUnmarshaller : IXmlUnmarshaller<ResourceSpecificResult, XmlUnmarshallerContext>, IXmlUnmarshaller<ResourceSpecificResult, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

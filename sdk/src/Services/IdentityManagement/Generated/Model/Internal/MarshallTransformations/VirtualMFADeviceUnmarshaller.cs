@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for VirtualMFADevice Object
     /// </summary>  
-    public class VirtualMFADeviceUnmarshaller : IUnmarshaller<VirtualMFADevice, XmlUnmarshallerContext>, IUnmarshaller<VirtualMFADevice, JsonUnmarshallerContext>
+    public class VirtualMFADeviceUnmarshaller : IXmlUnmarshaller<VirtualMFADevice, XmlUnmarshallerContext>, IXmlUnmarshaller<VirtualMFADevice, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

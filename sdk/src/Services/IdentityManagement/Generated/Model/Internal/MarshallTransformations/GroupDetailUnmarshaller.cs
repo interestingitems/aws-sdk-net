@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for GroupDetail Object
     /// </summary>  
-    public class GroupDetailUnmarshaller : IUnmarshaller<GroupDetail, XmlUnmarshallerContext>, IUnmarshaller<GroupDetail, JsonUnmarshallerContext>
+    public class GroupDetailUnmarshaller : IXmlUnmarshaller<GroupDetail, XmlUnmarshallerContext>, IXmlUnmarshaller<GroupDetail, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

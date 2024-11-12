@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for DeletionTaskFailureReasonType Object
     /// </summary>  
-    public class DeletionTaskFailureReasonTypeUnmarshaller : IUnmarshaller<DeletionTaskFailureReasonType, XmlUnmarshallerContext>, IUnmarshaller<DeletionTaskFailureReasonType, JsonUnmarshallerContext>
+    public class DeletionTaskFailureReasonTypeUnmarshaller : IXmlUnmarshaller<DeletionTaskFailureReasonType, XmlUnmarshallerContext>, IXmlUnmarshaller<DeletionTaskFailureReasonType, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

@@ -29,6 +29,7 @@ using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal.Util;
+using Amazon.Util;
 using ThirdParty.Json.LitJson;
 
 #pragma warning disable CS0612,CS0618
@@ -47,8 +48,7 @@ namespace Amazon.AccessAnalyzer.Model.Internal.MarshallTransformations
         public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             CreateAccessPreviewResponse response = new CreateAccessPreviewResponse();
-
-            context.Read();
+            ReadOnlySpan<byte> buffer = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth))
             {

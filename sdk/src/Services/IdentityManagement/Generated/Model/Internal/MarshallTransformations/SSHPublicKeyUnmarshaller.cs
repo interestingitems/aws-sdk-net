@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for SSHPublicKey Object
     /// </summary>  
-    public class SSHPublicKeyUnmarshaller : IUnmarshaller<SSHPublicKey, XmlUnmarshallerContext>, IUnmarshaller<SSHPublicKey, JsonUnmarshallerContext>
+    public class SSHPublicKeyUnmarshaller : IXmlUnmarshaller<SSHPublicKey, XmlUnmarshallerContext>, IXmlUnmarshaller<SSHPublicKey, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

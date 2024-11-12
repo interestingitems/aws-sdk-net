@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for ServerCertificateMetadata Object
     /// </summary>  
-    public class ServerCertificateMetadataUnmarshaller : IUnmarshaller<ServerCertificateMetadata, XmlUnmarshallerContext>, IUnmarshaller<ServerCertificateMetadata, JsonUnmarshallerContext>
+    public class ServerCertificateMetadataUnmarshaller : IXmlUnmarshaller<ServerCertificateMetadata, XmlUnmarshallerContext>, IXmlUnmarshaller<ServerCertificateMetadata, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for AttachedPermissionsBoundary Object
     /// </summary>  
-    public class AttachedPermissionsBoundaryUnmarshaller : IUnmarshaller<AttachedPermissionsBoundary, XmlUnmarshallerContext>, IUnmarshaller<AttachedPermissionsBoundary, JsonUnmarshallerContext>
+    public class AttachedPermissionsBoundaryUnmarshaller : IXmlUnmarshaller<AttachedPermissionsBoundary, XmlUnmarshallerContext>, IXmlUnmarshaller<AttachedPermissionsBoundary, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

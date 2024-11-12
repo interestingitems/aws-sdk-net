@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for Statement Object
     /// </summary>  
-    public class StatementUnmarshaller : IUnmarshaller<Statement, XmlUnmarshallerContext>, IUnmarshaller<Statement, JsonUnmarshallerContext>
+    public class StatementUnmarshaller : IXmlUnmarshaller<Statement, XmlUnmarshallerContext>, IXmlUnmarshaller<Statement, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

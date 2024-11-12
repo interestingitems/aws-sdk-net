@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for ServiceSpecificCredentialMetadata Object
     /// </summary>  
-    public class ServiceSpecificCredentialMetadataUnmarshaller : IUnmarshaller<ServiceSpecificCredentialMetadata, XmlUnmarshallerContext>, IUnmarshaller<ServiceSpecificCredentialMetadata, JsonUnmarshallerContext>
+    public class ServiceSpecificCredentialMetadataUnmarshaller : IXmlUnmarshaller<ServiceSpecificCredentialMetadata, XmlUnmarshallerContext>, IXmlUnmarshaller<ServiceSpecificCredentialMetadata, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for PasswordPolicy Object
     /// </summary>  
-    public class PasswordPolicyUnmarshaller : IUnmarshaller<PasswordPolicy, XmlUnmarshallerContext>, IUnmarshaller<PasswordPolicy, JsonUnmarshallerContext>
+    public class PasswordPolicyUnmarshaller : IXmlUnmarshaller<PasswordPolicy, XmlUnmarshallerContext>, IXmlUnmarshaller<PasswordPolicy, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

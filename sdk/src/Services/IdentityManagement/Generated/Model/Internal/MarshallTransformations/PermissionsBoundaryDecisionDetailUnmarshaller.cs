@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for PermissionsBoundaryDecisionDetail Object
     /// </summary>  
-    public class PermissionsBoundaryDecisionDetailUnmarshaller : IUnmarshaller<PermissionsBoundaryDecisionDetail, XmlUnmarshallerContext>, IUnmarshaller<PermissionsBoundaryDecisionDetail, JsonUnmarshallerContext>
+    public class PermissionsBoundaryDecisionDetailUnmarshaller : IXmlUnmarshaller<PermissionsBoundaryDecisionDetail, XmlUnmarshallerContext>, IXmlUnmarshaller<PermissionsBoundaryDecisionDetail, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

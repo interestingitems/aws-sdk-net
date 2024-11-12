@@ -35,7 +35,7 @@ namespace Amazon.SimpleNotificationService.Model.Internal.MarshallTransformation
     /// <summary>
     /// Response Unmarshaller for PhoneNumberInformation Object
     /// </summary>  
-    public class PhoneNumberInformationUnmarshaller : IUnmarshaller<PhoneNumberInformation, XmlUnmarshallerContext>, IUnmarshaller<PhoneNumberInformation, JsonUnmarshallerContext>
+    public class PhoneNumberInformationUnmarshaller : IXmlUnmarshaller<PhoneNumberInformation, XmlUnmarshallerContext>, IXmlUnmarshaller<PhoneNumberInformation, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

@@ -35,7 +35,7 @@ namespace Amazon.SimpleNotificationService.Model.Internal.MarshallTransformation
     /// <summary>
     /// Response Unmarshaller for PublishBatchResultEntry Object
     /// </summary>  
-    public class PublishBatchResultEntryUnmarshaller : IUnmarshaller<PublishBatchResultEntry, XmlUnmarshallerContext>, IUnmarshaller<PublishBatchResultEntry, JsonUnmarshallerContext>
+    public class PublishBatchResultEntryUnmarshaller : IXmlUnmarshaller<PublishBatchResultEntry, XmlUnmarshallerContext>, IXmlUnmarshaller<PublishBatchResultEntry, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

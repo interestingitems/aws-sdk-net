@@ -35,7 +35,7 @@ namespace Amazon.IdentityManagement.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for ListPoliciesGrantingServiceAccessEntry Object
     /// </summary>  
-    public class ListPoliciesGrantingServiceAccessEntryUnmarshaller : IUnmarshaller<ListPoliciesGrantingServiceAccessEntry, XmlUnmarshallerContext>, IUnmarshaller<ListPoliciesGrantingServiceAccessEntry, JsonUnmarshallerContext>
+    public class ListPoliciesGrantingServiceAccessEntryUnmarshaller : IXmlUnmarshaller<ListPoliciesGrantingServiceAccessEntry, XmlUnmarshallerContext>, IXmlUnmarshaller<ListPoliciesGrantingServiceAccessEntry, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.

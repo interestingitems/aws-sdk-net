@@ -20,6 +20,7 @@ using System.Net;
 using System.Xml;
 using System.IO;
 using Amazon.Util;
+using System.Text.Json;
 
 namespace Amazon.Runtime.Internal.Transform
 {
@@ -29,16 +30,20 @@ namespace Amazon.Runtime.Internal.Transform
     /// in the XML stream goes into what members of an object. 
     /// </summary>
     /// <typeparam name="T">The type of object the unmarshaller returns</typeparam>
-    /// <typeparam name="R">The type of the XML unmashaller context, which contains the
+    /// <typeparam name="TXmlUnmarshallerContext">The type of the XML unmashaller context, which contains the
     /// state during parsing of the XML stream. Usually an instance of 
     /// <c>Amazon.Runtime.Internal.Transform.UnmarshallerContext</c>.</typeparam>
-    public interface IUnmarshaller<T, R>
+    public interface IXmlUnmarshaller<T, TXmlUnmarshallerContext>
     {
-        /// <summary>
-        /// Given the current position in the XML stream, extract a T.
-        /// </summary>
-        /// <param name="input">The XML parsing context</param>
-        /// <returns>An object of type T populated with data from the XML stream.</returns>
-        T Unmarshall(R input);
+//#if NETCOREAPP3_1_OR_GREATER
+//        /// <summary>
+//        /// Given the current position in the XML stream, extract a T.
+//        /// </summary>
+//        /// <param name="input">The XML parsing context</param>
+//        /// <returns>An object of type T populated with data from the XML stream.</returns>
+//        T Unmarshall(TXmlUnmarshallerContext input) => throw new NotImplementedException();
+//#else
+        T Unmarshall(TXmlUnmarshallerContext input);
+//#endif
     }
 }

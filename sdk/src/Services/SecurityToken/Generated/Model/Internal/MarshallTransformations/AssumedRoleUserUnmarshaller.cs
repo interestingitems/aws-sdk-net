@@ -35,7 +35,7 @@ namespace Amazon.SecurityToken.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for AssumedRoleUser Object
     /// </summary>  
-    public class AssumedRoleUserUnmarshaller : IUnmarshaller<AssumedRoleUser, XmlUnmarshallerContext>, IUnmarshaller<AssumedRoleUser, JsonUnmarshallerContext>
+    public class AssumedRoleUserUnmarshaller : IXmlUnmarshaller<AssumedRoleUser, XmlUnmarshallerContext>, IXmlUnmarshaller<AssumedRoleUser, JsonUnmarshallerContext>
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.
