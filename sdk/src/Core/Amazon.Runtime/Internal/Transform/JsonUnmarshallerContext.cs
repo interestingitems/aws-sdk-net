@@ -261,7 +261,7 @@ namespace Amazon.Runtime.Internal.Transform
             switch (currentToken)
             {
                 case JsonTokenType.Null:
-                    text = "null";
+                    text = null;
                     break;
                 case JsonTokenType.String:
                     text = reader.GetString();

@@ -773,13 +773,11 @@ namespace ServiceClientGenerator
                         return string.Format("new JsonDictionaryUnmarshaller<{0}, {1}, {2}, {3}>(StringUnmarshaller.Instance, {5})",
                             keyType, valueType, keyTypeUnmarshaller, valueTypeUnmarshaller, keyTypeUnmarshallerInstantiate, valueTypeUnmarshallerInstantiate);
                     else if (this.model.Type == ServiceType.Rest_Xml && !isFlat)
-                        return string.Format("new XmlDictionaryUnmarshaller<{0}, {1}, {2}, {3}>((StringUnmarshaller.Instance, {5})",
+                        return string.Format("new XmlDictionaryUnmarshaller<{0}, {1}, {2}, {3}>(StringUnmarshaller.Instance, {5})",
                             keyType, valueType, keyTypeUnmarshaller, valueTypeUnmarshaller, keyTypeUnmarshallerInstantiate, valueTypeUnmarshallerInstantiate);
-                    else if (this.model.Type == ServiceType.Query)
-                            return string.Format("new XmlKeyValueUnmarshaller<{0}, {1}, {2}, {3}>(StringUnmarshaller.Instance, {5})",
-                                keyType, valueType, keyTypeUnmarshaller, valueTypeUnmarshaller, keyTypeUnmarshallerInstantiate, valueTypeUnmarshallerInstantiate);
                     else
-                        throw new Exception("Unknown protocol type");
+                        return string.Format("new XmlKeyValueUnmarshaller<{0}, {1}, {2}, {3}>(StringUnmarshaller.Instance, {5})",
+                            keyType, valueType, keyTypeUnmarshaller, valueTypeUnmarshaller, keyTypeUnmarshallerInstantiate, valueTypeUnmarshallerInstantiate);
                 case "list":
                     var listType = DetermineType(memberShape[Shape.MemberKey], true, false);
                     var listTypeUnmarshaller = GetTypeUnmarshallerName(memberShape[Shape.MemberKey], false);

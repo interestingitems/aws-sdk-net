@@ -27,8 +27,6 @@ namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
         public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             <#=this.UnmarshallerBaseName #>Response response = new <#=this.Operation.Name #>Response();
-            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
-            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
 <#
     var payload = this.Operation.ResponsePayloadMember;
     var unmarshallPayload = payload != null && payload.IsStructure;
@@ -93,6 +91,8 @@ namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
         else if (unmarshallPayload)
         {
 #>
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
             var unmarshaller = <#= payload.DetermineTypeUnmarshallerInstantiate() #>;
             response.<#=payload.PropertyName#> = unmarshaller.Unmarshall(context, ref reader);
 <#
@@ -106,6 +106,8 @@ namespace <#=this.Config.Namespace #>.Model.Internal.MarshallTransformations
         else
         {
 #>
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
             context.Read(ref reader);
             int targetDepth = context.CurrentDepth;
             while (context.ReadAtDepth(targetDepth, ref reader))
