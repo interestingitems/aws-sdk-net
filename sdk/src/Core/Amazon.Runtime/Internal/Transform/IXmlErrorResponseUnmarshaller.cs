@@ -37,7 +37,7 @@ namespace Amazon.Runtime.Internal.Transform
         /// Given the current position in the XML stream, extract a T.
         /// </summary>
         /// <param name="input">The XML parsing context</param>
-        /// <param name="errorResponse"></param>
+        /// <param name="errorResponse">The error response</param>
         /// <returns>An object of type T populated with data from the XML stream.</returns>
         TUnmarshaller Unmarshall(XmlUnmarshallerContext input, ErrorResponse errorResponse);
     }

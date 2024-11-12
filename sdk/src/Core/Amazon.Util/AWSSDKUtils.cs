@@ -857,7 +857,6 @@ namespace Amazon.Util
         {
             MemoryStream streamBuffer = new MemoryStream();
             context.Stream.CopyTo(streamBuffer);
-            context.Stream.Position = 0;
             streamBuffer.Position = 0;
             return new ReadOnlySpan<byte>(streamBuffer.ToArray());
             

@@ -12,10 +12,10 @@ namespace Amazon.Runtime.Internal.Transform
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context">The jsonunmarshaller context</param>
+        /// <param name="context">The JSON Unmarshaller context</param>
         /// <param name="errorResponse">The error response</param>
-        /// <param name="reader">The json reader</param>
-        /// <returns>T, the error shape that is unmarshalled from the json context</returns>
+        /// <param name="reader">The JSON reader</param>
+        /// <returns>T, the error shape that is unmarshalled from the JSON context</returns>
         T Unmarshall(TJsonUnmarshallerContext context, ErrorResponse errorResponse, ref Utf8JsonReader reader);
     }
 }

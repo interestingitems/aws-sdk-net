@@ -68,7 +68,7 @@ namespace ServiceClientGenerator.Generators.Marshallers
         /// </summary>  
         /// <param name=""context""></param>
         /// <returns></returns>
-        public AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
+        public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             ");
             

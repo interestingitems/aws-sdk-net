@@ -837,16 +837,15 @@ namespace Amazon.Runtime.Internal.Transform
         }
     }
 
-    public class KeyValueUnmarshaller<K, V, KUnmarshaller, VUnmarshaller> :
-    IXmlUnmarshaller<KeyValuePair<K, V>, XmlUnmarshallerContext>, 
-    IJsonUnmarshaller<KeyValuePair<K, V>, JsonUnmarshallerContext>
-        where KUnmarshaller : IXmlUnmarshaller<K, XmlUnmarshallerContext>, IJsonUnmarshaller<K, JsonUnmarshallerContext>
-        where VUnmarshaller : IXmlUnmarshaller<V, XmlUnmarshallerContext>, IJsonUnmarshaller<V, JsonUnmarshallerContext>
+    public class XmlKeyValueUnmarshaller<K, V, KUnmarshaller, VUnmarshaller> :
+    IXmlUnmarshaller<KeyValuePair<K, V>, XmlUnmarshallerContext>
+        where KUnmarshaller : IXmlUnmarshaller<K, XmlUnmarshallerContext>
+        where VUnmarshaller : IXmlUnmarshaller<V, XmlUnmarshallerContext>
     {
         private KUnmarshaller keyUnmarshaller;
         private VUnmarshaller valueUnmarshaller;
 
-        public KeyValueUnmarshaller(KUnmarshaller keyUnmarshaller, VUnmarshaller valueUnmarshaller)
+        public XmlKeyValueUnmarshaller(KUnmarshaller keyUnmarshaller, VUnmarshaller valueUnmarshaller)
         {
             this.keyUnmarshaller = keyUnmarshaller;
             this.valueUnmarshaller = valueUnmarshaller;
@@ -883,6 +882,22 @@ namespace Amazon.Runtime.Internal.Transform
             return new KeyValuePair<K, V>(key, value);
         }
 
+    }
+
+    public class JsonKeyValueUnmarshaller<K, V, KUnmarshaller, VUnmarshaller> :
+        IJsonUnmarshaller<KeyValuePair<K, V>, JsonUnmarshallerContext>
+        where KUnmarshaller : IJsonUnmarshaller<K, JsonUnmarshallerContext>
+        where VUnmarshaller : IJsonUnmarshaller<V, JsonUnmarshallerContext>
+    {
+        private KUnmarshaller keyUnmarshaller;
+        private VUnmarshaller valueUnmarshaller;
+
+        public JsonKeyValueUnmarshaller(KUnmarshaller keyUnmarshaller, VUnmarshaller valueUnmarshaller)
+        {
+            this.keyUnmarshaller = keyUnmarshaller;
+            this.valueUnmarshaller = valueUnmarshaller;
+        }
+
         public KeyValuePair<K, V> Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
             K key = this.keyUnmarshaller.Unmarshall(context, ref reader);
@@ -892,20 +907,14 @@ namespace Amazon.Runtime.Internal.Transform
         }
     }
 
-    public class ListUnmarshaller<T>
+    public class XmlListUnmarshaller<T, TUnmarshaller> : IXmlUnmarshaller<List<T>, XmlUnmarshallerContext>
+        where TUnmarshaller : IXmlUnmarshaller<T, XmlUnmarshallerContext>
     {
-        private IXmlUnmarshaller<XmlUnmarshallerContext, T> xmlUnmarshaller;
-        private IJsonUnmarshaller <JsonUnmarshallerContext, T> jsonUnmarshaller;
+        private TUnmarshaller iUnmarshaller;
 
-
-        public ListUnmarshaller(IXmlUnmarshaller<XmlUnmarshallerContext, T> xmlUnmarshaller)
+        public XmlListUnmarshaller(TUnmarshaller iUnmarshaller)
         {
-            this.xmlUnmarshaller = xmlUnmarshaller;
-        }
-
-        public ListUnmarshaller(IJsonUnmarshaller<JsonUnmarshallerContext, T> jsonUnmarshaller)
-        {
-            this.jsonUnmarshaller = jsonUnmarshaller;
+            this.iUnmarshaller = iUnmarshaller;
         }
 
         public List<T> Unmarshall(XmlUnmarshallerContext context)
@@ -923,13 +932,25 @@ namespace Amazon.Runtime.Internal.Transform
                 {
                     if (context.TestExpression("member", targetDepth))
                     {
-                        var item = xmlUnmarshaller.Unmarshall(context);
+                        var item = iUnmarshaller.Unmarshall(context);
                         list.Add(item);
                     }
                 }
             }
             return list;
         }
+    }
+
+    public class JsonListUnmarshaller<T, TUnmarshaller> : IJsonUnmarshaller<List<T>, JsonUnmarshallerContext>
+        where TUnmarshaller : IJsonUnmarshaller<T, JsonUnmarshallerContext>
+    {
+        private TUnmarshaller iUnmarshaller;
+
+        public JsonListUnmarshaller(TUnmarshaller iUnmarshaller)
+        {
+            this.iUnmarshaller = iUnmarshaller;
+        }
+
         public List<T> Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
             context.Read(ref reader); // Read [ or null
@@ -941,14 +962,13 @@ namespace Amazon.Runtime.Internal.Transform
                     return null;
             }
 
-
             // If a list is present in the response, use AlwaysSendList,
             // so if the response was empty, reusing the object in the request we will
             // end up sending the same empty collection back.
-            List<T> list = new AlwaysSendList<I>();
+            List<T> list = new AlwaysSendList<T>();
             while (!context.Peek(JsonTokenType.EndArray, ref reader)) // Peek for ]
             {
-                list.Add(jsonUnmarshaller.Unmarshall(context, ref reader));
+                list.Add(iUnmarshaller.Unmarshall(context, ref reader));
             }
             context.Read(ref reader); // Read ]
             return list;
@@ -956,15 +976,15 @@ namespace Amazon.Runtime.Internal.Transform
     }
 
 
-    public class DictionaryUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> : IXmlUnmarshaller<Dictionary<TKey, TValue>, XmlUnmarshallerContext>, IJsonUnmarshaller<Dictionary<TKey, TValue>, JsonUnmarshallerContext>
-        where TKeyUnmarshaller : IXmlUnmarshaller<TKey, XmlUnmarshallerContext>, IJsonUnmarshaller<TKey, JsonUnmarshallerContext>
-        where TValueUnmarshaller : IXmlUnmarshaller<TValue, XmlUnmarshallerContext>, IJsonUnmarshaller<TValue, JsonUnmarshallerContext>
+    public class XmlDictionaryUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> : IXmlUnmarshaller<Dictionary<TKey, TValue>, XmlUnmarshallerContext>
+        where TKeyUnmarshaller : IXmlUnmarshaller<TKey, XmlUnmarshallerContext>
+        where TValueUnmarshaller : IXmlUnmarshaller<TValue, XmlUnmarshallerContext>
     {
-        private KeyValueUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> KVUnmarshaller;
+        private XmlKeyValueUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> KVUnmarshaller;
 
-        public DictionaryUnmarshaller(TKeyUnmarshaller kUnmarshaller, TValueUnmarshaller vUnmarshaller)
+        public XmlDictionaryUnmarshaller(TKeyUnmarshaller kUnmarshaller, TValueUnmarshaller vUnmarshaller)
         {
-            KVUnmarshaller = new KeyValueUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller>(kUnmarshaller, vUnmarshaller);
+            KVUnmarshaller = new XmlKeyValueUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller>(kUnmarshaller, vUnmarshaller);
         }                
 
         public Dictionary<TKey, TValue> Unmarshall(XmlUnmarshallerContext context)
@@ -989,6 +1009,18 @@ namespace Amazon.Runtime.Internal.Transform
             }                        
             
             return dictionary;
+        }
+    }
+
+    public class JsonDictionaryUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> : IJsonUnmarshaller<Dictionary<TKey, TValue>, JsonUnmarshallerContext>
+        where TKeyUnmarshaller :IJsonUnmarshaller<TKey, JsonUnmarshallerContext>
+        where TValueUnmarshaller : IJsonUnmarshaller<TValue, JsonUnmarshallerContext>
+    {
+        private JsonKeyValueUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller> KVUnmarshaller;
+
+        public JsonDictionaryUnmarshaller(TKeyUnmarshaller kUnmarshaller, TValueUnmarshaller vUnmarshaller)
+        {
+            KVUnmarshaller = new JsonKeyValueUnmarshaller<TKey, TValue, TKeyUnmarshaller, TValueUnmarshaller>(kUnmarshaller, vUnmarshaller);
         }
 
         public Dictionary<TKey, TValue> Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)

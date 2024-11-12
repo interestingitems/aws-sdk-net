@@ -60,24 +60,17 @@ namespace ServiceClientGenerator.Generators.Marshallers
             
             #line default
             #line hidden
-            this.Write("Unmarshaller : IUnmarshaller<");
+            this.Write("Unmarshaller : IXmlUnmarshaller<");
             
             #line 18 "C:\Dev\Repos\aws-sdk-net-staging\generator\ServiceClientGeneratorLib\Generators\Marshallers\RestXmlStructureUnmarshaller.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.UnmarshallerBaseName));
             
             #line default
             #line hidden
-            this.Write(", XmlUnmarshallerContext>, IUnmarshaller<");
-            
-            #line 18 "C:\Dev\Repos\aws-sdk-net-staging\generator\ServiceClientGeneratorLib\Generators\Marshallers\RestXmlStructureUnmarshaller.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.UnmarshallerBaseName));
-            
-            #line default
-            #line hidden
-            this.Write(", JsonUnmarshallerContext>\r\n    {\r\n        /// <summary>\r\n        /// Unmarshalle" +
-                    "r the response from the service to the response class.\r\n        /// </summary>  " +
-                    "\r\n        /// <param name=\"context\"></param>\r\n        /// <returns></returns>\r\n " +
-                    "       public ");
+            this.Write(", XmlUnmarshallerContext>\r\n    {\r\n        /// <summary>\r\n        /// Unmarshaller" +
+                    " the response from the service to the response class.\r\n        /// </summary>  \r" +
+                    "\n        /// <param name=\"context\"></param>\r\n        /// <returns></returns>\r\n  " +
+                    "      public ");
             
             #line 25 "C:\Dev\Repos\aws-sdk-net-staging\generator\ServiceClientGeneratorLib\Generators\Marshallers\RestXmlStructureUnmarshaller.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.UnmarshallerBaseName));

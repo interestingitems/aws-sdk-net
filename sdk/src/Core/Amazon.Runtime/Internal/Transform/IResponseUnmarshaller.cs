@@ -29,7 +29,7 @@ namespace Amazon.Runtime.Internal.Transform
     /// <typeparam name="R">The type of the unmashaller context, which contains the
     /// state of parsing the stream. Usually an instance of 
     /// <c>Amazon.Runtime.Internal.Transform.UnmarshallerContext</c>.</typeparam>
-    public interface IResponseUnmarshaller<T, R> 
+    public interface IResponseUnmarshaller<T, R>
     {
         /// <summary>
         /// Extracts an exeption with data from an ErrorResponse.

@@ -15,26 +15,15 @@ namespace Amazon.Runtime.Internal.Transform
     /// <typeparam name="T">The type of object the unmarshaller returns</typeparam>
     /// <typeparam name="TJsonUnmarshallerContext">The type of the Unmarshaller context. This can be any context that
     /// inherits from JsonUnmarshallerContext or JsonUnmarshallerContext itself. The context contains the
-    /// state during parsing of the JSON stream. Usually an instance of JsonUnmarshallerContext</typeparam>
+    /// state during parsing of the JSON stream.</typeparam>
     public interface IJsonUnmarshaller<T, TJsonUnmarshallerContext>
     {
-        // NetStandard2.0 does not support default interface methods
-//#if NETCOREAPP3_1_OR_GREATER
-//        /// <summary>
-//        /// Given the current position in the JSON stream, extract a T
-//        /// </summary>
-//        /// <param name="input">The Json parsing context</param>
-//        /// <param name="reader">The Utf8JsonReader</param>
-//        /// <returns>An object of type T populated with data from the Json stream.</returns>
-//        T Unmarshall(TJsonUnmarshallerContext input, ref Utf8JsonReader reader) => throw new NotImplementedException();
-//#else
         /// <summary>
         /// Given the current position in the JSON stream, extract a T
         /// </summary>
-        /// <param name="input">The Json parsing context</param>
-        /// <param name="reader">The Utf8JsonReader</param>
-        /// <returns>An object of type T populated with data from the Json stream.</returns>
+        /// <param name="input">The JSON parsing context</param>
+        /// <param name="reader">The Utf8JsonReader in the System Text JSON namespace</param>
+        /// <returns>An object of type T populated with data from the JSON stream.</returns>
         T Unmarshall(TJsonUnmarshallerContext input, ref Utf8JsonReader reader);
-//#endif
     }
 }
