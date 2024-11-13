@@ -12,7 +12,6 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using ServiceClientGenerator;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,57 +23,57 @@ namespace AWSSDK.Benchmarks
 {
     public static class Utils
     {
-        public static ServiceModel LoadServiceModel(string service)
-        {
-            string repoRoot = Directory.GetCurrentDirectory();
-            do
-            {
-                if (Directory.Exists(Path.Combine(repoRoot, "generator")))
-                {
-                    break;
-                }
+        //public static ServiceModel LoadServiceModel(string service)
+        //{
+        //    string repoRoot = Directory.GetCurrentDirectory();
+        //    do
+        //    {
+        //        if (Directory.Exists(Path.Combine(repoRoot, "generator")))
+        //        {
+        //            break;
+        //        }
 
-                var directoryInfo = Directory.GetParent(repoRoot);
-                repoRoot = directoryInfo != null ? directoryInfo.FullName : null;
-            } while (repoRoot != null);
+        //        var directoryInfo = Directory.GetParent(repoRoot);
+        //        repoRoot = directoryInfo != null ? directoryInfo.FullName : null;
+        //    } while (repoRoot != null);
 
-            string serviceModelDirectory = Path.Combine(repoRoot, "generator", "ServiceModels", service);
+        //    string serviceModelDirectory = Path.Combine(repoRoot, "generator", "ServiceModels", service);
 
-            string modelPath = GetLatestModelPath(serviceModelDirectory);
-            string customizationsPath = Path.Combine(serviceModelDirectory, service + ".customizations.json");
+        //    string modelPath = GetLatestModelPath(serviceModelDirectory);
+        //    string customizationsPath = Path.Combine(serviceModelDirectory, service + ".customizations.json");
 
-            using (var streamReader = new StreamReader(modelPath))
-            {
-                StreamReader customizationsReader = null;
-                if (File.Exists(customizationsPath))
-                {
-                    using (customizationsReader = new StreamReader(customizationsPath))
-                    {
-                        return new ServiceModel(streamReader, customizationsReader);
-                    }
-                }
-                return new ServiceModel(streamReader, null);
-            }
-        }
+        //    using (var streamReader = new StreamReader(modelPath))
+        //    {
+        //        StreamReader customizationsReader = null;
+        //        if (File.Exists(customizationsPath))
+        //        {
+        //            using (customizationsReader = new StreamReader(customizationsPath))
+        //            {
+        //                return new ServiceModel(streamReader, customizationsReader);
+        //            }
+        //        }
+        //        return new ServiceModel(streamReader, null);
+        //    }
+        //}
 
-        private static string GetLatestModelPath(string serviceDirectory)
-        {
-            string latestModelPath = "";
-            foreach (string modelName in Directory.GetFiles(serviceDirectory, "*.normal.json", SearchOption.TopDirectoryOnly))
-            {
-                if (string.Compare(latestModelPath, modelName) < 0)
-                {
-                    latestModelPath = modelName;
-                }
-            }
+        //private static string GetLatestModelPath(string serviceDirectory)
+        //{
+        //    string latestModelPath = "";
+        //    foreach (string modelName in Directory.GetFiles(serviceDirectory, "*.normal.json", SearchOption.TopDirectoryOnly))
+        //    {
+        //        if (string.Compare(latestModelPath, modelName) < 0)
+        //        {
+        //            latestModelPath = modelName;
+        //        }
+        //    }
 
-            if (string.IsNullOrEmpty(latestModelPath))
-            {
-                throw new FileNotFoundException("Failed to find a model file in " + serviceDirectory);
-            }
+        //    if (string.IsNullOrEmpty(latestModelPath))
+        //    {
+        //        throw new FileNotFoundException("Failed to find a model file in " + serviceDirectory);
+        //    }
 
-            return latestModelPath;
-        }
+        //    return latestModelPath;
+        //}
 
         public static Stream CreateStreamFromString(string s)
         {

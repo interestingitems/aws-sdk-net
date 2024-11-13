@@ -31,12 +31,6 @@ namespace AWSSDK.Benchmarks
             config.AddColumn(StatisticColumn.P95);
 
             BenchmarkRunner.Run<SQSBenchmarks>(config);
-            BenchmarkRunner.Run<SNSBenchmarks>(config);
-            BenchmarkRunner.Run<CloudwatchBenchmarks>(config);
-            BenchmarkRunner.Run<CloudwatchLogsBenchmarks>(config);
-            BenchmarkRunner.Run<MarshallAndUnmarshallBenchmarks>(config);
-            BenchmarkRunner.Run<S3Benchmarks>(config);
-            BenchmarkRunner.Run<DynamoBenchmarks>(config);
 
 
 
