@@ -43,6 +43,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
         /// Unmarshaller the response from the service to the response class.
         /// </summary>  
         /// <param name="context"></param>
+        /// <param name="reader"></param>
         /// <returns>The unmarshalled object</returns>
         public BatchResultErrorEntry Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {

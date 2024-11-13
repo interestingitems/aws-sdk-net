@@ -45,7 +45,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
         /// </summary>  
         /// <param name="context"></param>
         /// <returns></returns>
-        public AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
+        public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             ListMessageMoveTasksResponse response = new ListMessageMoveTasksResponse();
             ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
@@ -56,7 +56,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
             {
                 if (context.TestExpression("Results", targetDepth))
                 {
-                    var unmarshaller = new ListUnmarshaller<ListMessageMoveTasksResultEntry, ListMessageMoveTasksResultEntryUnmarshaller>(ListMessageMoveTasksResultEntryUnmarshaller.Instance);
+                    var unmarshaller = new JsonListUnmarshaller<ListMessageMoveTasksResultEntry, ListMessageMoveTasksResultEntryUnmarshaller>(ListMessageMoveTasksResultEntryUnmarshaller.Instance);
                     response.Results = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }

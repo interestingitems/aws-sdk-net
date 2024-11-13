@@ -43,6 +43,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
         /// Unmarshaller the response from the service to the response class.
         /// </summary>  
         /// <param name="context"></param>
+        /// <param name="reader"></param>
         /// <returns>The unmarshalled object</returns>
         public MessageAttributeValue Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
@@ -58,7 +59,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
             {
                 if (context.TestExpression("BinaryListValues", targetDepth))
                 {
-                    var unmarshaller = new ListUnmarshaller<MemoryStream, MemoryStreamUnmarshaller>(MemoryStreamUnmarshaller.Instance);
+                    var unmarshaller = new JsonListUnmarshaller<MemoryStream, MemoryStreamUnmarshaller>(MemoryStreamUnmarshaller.Instance);
                     unmarshalledObject.BinaryListValues = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }
@@ -76,7 +77,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
                 }
                 if (context.TestExpression("StringListValues", targetDepth))
                 {
-                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    var unmarshaller = new JsonListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
                     unmarshalledObject.StringListValues = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }

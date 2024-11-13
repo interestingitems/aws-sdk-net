@@ -30,7 +30,8 @@ using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal.Util;
 using ThirdParty.Json.LitJson;
-
+using System.Text.Json;
+using Amazon.Util;
 #pragma warning disable CS0612,CS0618
 namespace Amazon.JSONRPC10.Model.Internal.MarshallTransformations
 {
@@ -48,7 +49,6 @@ namespace Amazon.JSONRPC10.Model.Internal.MarshallTransformations
         {
             EndpointWithHostLabelOperationResponse response = new EndpointWithHostLabelOperationResponse();
 
-
             return response;
         }
 
@@ -61,7 +61,9 @@ namespace Amazon.JSONRPC10.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public override AmazonServiceException UnmarshallException(JsonUnmarshallerContext context, Exception innerException, HttpStatusCode statusCode)
         {
-            var errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context);
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
+            var errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context, ref reader);
             errorResponse.InnerException = innerException;
             errorResponse.StatusCode = statusCode;
 

@@ -51,7 +51,7 @@ namespace Amazon.JSONRPC10.Model.Internal.MarshallTransformations
             if(requestObject.IsSetHi())
             {
                 context.Writer.WritePropertyName("hi");
-                context.Writer.Write(requestObject.Hi);
+                context.Writer.WriteStringValue(requestObject.Hi);
             }
 
         }

@@ -30,7 +30,8 @@ using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal.Util;
 using ThirdParty.Json.LitJson;
-
+using System.Text.Json;
+using Amazon.Util;
 #pragma warning disable CS0612,CS0618
 namespace Amazon.JsonProtocol.Model.Internal.MarshallTransformations
 {
@@ -47,15 +48,16 @@ namespace Amazon.JsonProtocol.Model.Internal.MarshallTransformations
         public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             GreetingWithErrorsResponse response = new GreetingWithErrorsResponse();
-
-            context.Read();
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
+            context.Read(ref reader);
             int targetDepth = context.CurrentDepth;
-            while (context.ReadAtDepth(targetDepth))
+            while (context.ReadAtDepth(targetDepth, ref reader))
             {
                 if (context.TestExpression("greeting", targetDepth))
                 {
                     var unmarshaller = StringUnmarshaller.Instance;
-                    response.Greeting = unmarshaller.Unmarshall(context);
+                    response.Greeting = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }
             }
@@ -72,7 +74,9 @@ namespace Amazon.JsonProtocol.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public override AmazonServiceException UnmarshallException(JsonUnmarshallerContext context, Exception innerException, HttpStatusCode statusCode)
         {
-            var errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context);
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
+            var errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context, ref reader);
             errorResponse.InnerException = innerException;
             errorResponse.StatusCode = statusCode;
 
@@ -83,15 +87,15 @@ namespace Amazon.JsonProtocol.Model.Internal.MarshallTransformations
             {
                 if (errorResponse.Code != null && errorResponse.Code.Equals("ComplexError"))
                 {
-                    return ComplexErrorExceptionUnmarshaller.Instance.Unmarshall(contextCopy, errorResponse);
+                    return ComplexErrorExceptionUnmarshaller.Instance.Unmarshall(contextCopy, errorResponse, ref reader);
                 }
                 if (errorResponse.Code != null && errorResponse.Code.Equals("FooError"))
                 {
-                    return FooErrorExceptionUnmarshaller.Instance.Unmarshall(contextCopy, errorResponse);
+                    return FooErrorExceptionUnmarshaller.Instance.Unmarshall(contextCopy, errorResponse, ref reader);
                 }
                 if (errorResponse.Code != null && errorResponse.Code.Equals("InvalidGreeting"))
                 {
-                    return InvalidGreetingExceptionUnmarshaller.Instance.Unmarshall(contextCopy, errorResponse);
+                    return InvalidGreetingExceptionUnmarshaller.Instance.Unmarshall(contextCopy, errorResponse, ref reader);
                 }
             }
             return new AmazonJsonProtocolException(errorResponse.Message, errorResponse.InnerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, errorResponse.StatusCode);

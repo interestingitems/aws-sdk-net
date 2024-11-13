@@ -30,7 +30,8 @@ using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal.Util;
 using ThirdParty.Json.LitJson;
-
+using System.Text.Json;
+using Amazon.Util;
 #pragma warning disable CS0612,CS0618
 namespace Amazon.RestJsonProtocol.Model.Internal.MarshallTransformations
 {
@@ -47,9 +48,10 @@ namespace Amazon.RestJsonProtocol.Model.Internal.MarshallTransformations
         public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             TestPayloadStructureResponse response = new TestPayloadStructureResponse();
-
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
             var unmarshaller = PayloadConfigUnmarshaller.Instance;
-            response.PayloadConfig = unmarshaller.Unmarshall(context);
+            response.PayloadConfig = unmarshaller.Unmarshall(context, ref reader);
             if (context.ResponseData.IsHeaderPresent("x-amz-test-id"))
                 response.TestId = context.ResponseData.GetHeaderValue("x-amz-test-id");
 
@@ -65,7 +67,9 @@ namespace Amazon.RestJsonProtocol.Model.Internal.MarshallTransformations
         /// <returns></returns>
         public override AmazonServiceException UnmarshallException(JsonUnmarshallerContext context, Exception innerException, HttpStatusCode statusCode)
         {
-            var errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context);
+            ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
+            Utf8JsonReader reader = new Utf8JsonReader(bufferSpan);
+            var errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context, ref reader);
             errorResponse.InnerException = innerException;
             errorResponse.StatusCode = statusCode;
 

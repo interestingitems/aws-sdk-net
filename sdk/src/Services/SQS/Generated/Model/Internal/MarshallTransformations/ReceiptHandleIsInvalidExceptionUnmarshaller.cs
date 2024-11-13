@@ -43,6 +43,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
         /// Unmarshaller the response from the service to the response class.
         /// </summary>  
         /// <param name="context"></param>
+        /// <param name="reader"></param>
         /// <returns></returns>
         public ReceiptHandleIsInvalidException Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
@@ -54,6 +55,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
         /// </summary>  
         /// <param name="context"></param>
         /// <param name="errorResponse"></param>
+        /// <param name="reader"></param>
         /// <returns></returns>
         public ReceiptHandleIsInvalidException Unmarshall(JsonUnmarshallerContext context, Amazon.Runtime.Internal.ErrorResponse errorResponse, ref Utf8JsonReader reader)
         {

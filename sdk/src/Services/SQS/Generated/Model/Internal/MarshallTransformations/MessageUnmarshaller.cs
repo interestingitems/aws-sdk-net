@@ -43,6 +43,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
         /// Unmarshaller the response from the service to the response class.
         /// </summary>  
         /// <param name="context"></param>
+        /// <param name="reader"></param>
         /// <returns>The unmarshalled object</returns>
         public Message Unmarshall(JsonUnmarshallerContext context, ref Utf8JsonReader reader)
         {
@@ -58,7 +59,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
             {
                 if (context.TestExpression("Attributes", targetDepth))
                 {
-                    var unmarshaller = new DictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
+                    var unmarshaller = new JsonDictionaryUnmarshaller<string, string, StringUnmarshaller, StringUnmarshaller>(StringUnmarshaller.Instance, StringUnmarshaller.Instance);
                     unmarshalledObject.Attributes = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }
@@ -82,7 +83,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
                 }
                 if (context.TestExpression("MessageAttributes", targetDepth))
                 {
-                    var unmarshaller = new DictionaryUnmarshaller<string, MessageAttributeValue, StringUnmarshaller, MessageAttributeValueUnmarshaller>(StringUnmarshaller.Instance, MessageAttributeValueUnmarshaller.Instance);
+                    var unmarshaller = new JsonDictionaryUnmarshaller<string, MessageAttributeValue, StringUnmarshaller, MessageAttributeValueUnmarshaller>(StringUnmarshaller.Instance, MessageAttributeValueUnmarshaller.Instance);
                     unmarshalledObject.MessageAttributes = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }

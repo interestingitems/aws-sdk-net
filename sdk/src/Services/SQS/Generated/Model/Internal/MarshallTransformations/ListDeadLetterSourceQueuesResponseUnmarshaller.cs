@@ -45,7 +45,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
         /// </summary>  
         /// <param name="context"></param>
         /// <returns></returns>
-        public AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
+        public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             ListDeadLetterSourceQueuesResponse response = new ListDeadLetterSourceQueuesResponse();
             ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
@@ -62,7 +62,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
                 }
                 if (context.TestExpression("queueUrls", targetDepth))
                 {
-                    var unmarshaller = new ListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
+                    var unmarshaller = new JsonListUnmarshaller<string, StringUnmarshaller>(StringUnmarshaller.Instance);
                     response.QueueUrls = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }

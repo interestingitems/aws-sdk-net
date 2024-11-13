@@ -61,23 +61,20 @@ namespace Amazon.RestJsonProtocol.Model.Internal.MarshallTransformations
             request.HttpMethod = "PUT";
 
             request.ResourcePath = "/DocumentTypeAsPayload";
-#if !NETCOREAPP3_1_OR_GREATER
-            
-            using var memoryStream = new MemoryStream();
-#endif
 #if NETCOREAPP3_1_OR_GREATER
             ArrayBufferWriter<byte> arrayBufferWriter = new ArrayBufferWriter<byte>();
             using Utf8JsonWriter writer = new Utf8JsonWriter(arrayBufferWriter);
 #else
+            using var memoryStream = new MemoryStream();
             using Utf8JsonWriter writer = new Utf8JsonWriter(memoryStream);
 #endif
             var context = new JsonMarshallerContext(request, writer);
             Amazon.Runtime.Documents.Internal.Transform.DocumentMarshaller.Instance.Write(context.Writer, publicRequest.DocumentValue);
             writer.Flush();
-#if !NETCOREAPP3_1_OR_GREATER
-            request.Content = memoryStream.ToArray();
-#else
+#if NETCOREAPP3_1_OR_GREATER
             request.Content = arrayBufferWriter.WrittenMemory.ToArray();
+#else
+            request.Content = memoryStream.ToArray();
 #endif
             
 

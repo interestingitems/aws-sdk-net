@@ -45,7 +45,7 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
         /// </summary>  
         /// <param name="context"></param>
         /// <returns></returns>
-        public AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
+        public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             SendMessageBatchResponse response = new SendMessageBatchResponse();
             ReadOnlySpan<byte> bufferSpan = AWSSDKUtils.ConvertStreamToReadOnlySpan(context);
@@ -56,13 +56,13 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
             {
                 if (context.TestExpression("Failed", targetDepth))
                 {
-                    var unmarshaller = new ListUnmarshaller<BatchResultErrorEntry, BatchResultErrorEntryUnmarshaller>(BatchResultErrorEntryUnmarshaller.Instance);
+                    var unmarshaller = new JsonListUnmarshaller<BatchResultErrorEntry, BatchResultErrorEntryUnmarshaller>(BatchResultErrorEntryUnmarshaller.Instance);
                     response.Failed = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }
                 if (context.TestExpression("Successful", targetDepth))
                 {
-                    var unmarshaller = new ListUnmarshaller<SendMessageBatchResultEntry, SendMessageBatchResultEntryUnmarshaller>(SendMessageBatchResultEntryUnmarshaller.Instance);
+                    var unmarshaller = new JsonListUnmarshaller<SendMessageBatchResultEntry, SendMessageBatchResultEntryUnmarshaller>(SendMessageBatchResultEntryUnmarshaller.Instance);
                     response.Successful = unmarshaller.Unmarshall(context, ref reader);
                     continue;
                 }
