@@ -51,13 +51,13 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
             if(requestObject.IsSetId())
             {
                 context.Writer.WritePropertyName("Id");
-                context.Writer.Write(requestObject.Id);
+                context.Writer.WriteStringValue(requestObject.Id);
             }
 
             if(requestObject.IsSetReceiptHandle())
             {
                 context.Writer.WritePropertyName("ReceiptHandle");
-                context.Writer.Write(requestObject.ReceiptHandle);
+                context.Writer.WriteStringValue(requestObject.ReceiptHandle);
             }
 
         }

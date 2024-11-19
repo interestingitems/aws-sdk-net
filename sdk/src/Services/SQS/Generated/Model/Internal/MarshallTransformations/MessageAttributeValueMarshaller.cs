@@ -51,41 +51,41 @@ namespace Amazon.SQS.Model.Internal.MarshallTransformations
             if(requestObject.IsSetBinaryListValues())
             {
                 context.Writer.WritePropertyName("BinaryListValues");
-                context.Writer.WriteArrayStart();
+                context.Writer.WriteStartArray();
                 foreach(var requestObjectBinaryListValuesListValue in requestObject.BinaryListValues)
                 {
-                    context.Writer.Write(StringUtils.FromMemoryStream(requestObjectBinaryListValuesListValue));
+                    context.Writer.WriteStringValue(StringUtils.FromMemoryStream(requestObjectBinaryListValuesListValue));
                 }
-                context.Writer.WriteArrayEnd();
+                context.Writer.WriteEndArray();
             }
 
             if(requestObject.IsSetBinaryValue())
             {
                 context.Writer.WritePropertyName("BinaryValue");
-                context.Writer.Write(StringUtils.FromMemoryStream(requestObject.BinaryValue));
+                context.Writer.WriteStringValue(StringUtils.FromMemoryStream(requestObject.BinaryValue));
             }
 
             if(requestObject.IsSetDataType())
             {
                 context.Writer.WritePropertyName("DataType");
-                context.Writer.Write(requestObject.DataType);
+                context.Writer.WriteStringValue(requestObject.DataType);
             }
 
             if(requestObject.IsSetStringListValues())
             {
                 context.Writer.WritePropertyName("StringListValues");
-                context.Writer.WriteArrayStart();
+                context.Writer.WriteStartArray();
                 foreach(var requestObjectStringListValuesListValue in requestObject.StringListValues)
                 {
-                        context.Writer.Write(requestObjectStringListValuesListValue);
+                        context.Writer.WriteStringValue(requestObjectStringListValuesListValue);
                 }
-                context.Writer.WriteArrayEnd();
+                context.Writer.WriteEndArray();
             }
 
             if(requestObject.IsSetStringValue())
             {
                 context.Writer.WritePropertyName("StringValue");
-                context.Writer.Write(requestObject.StringValue);
+                context.Writer.WriteStringValue(requestObject.StringValue);
             }
 
         }
