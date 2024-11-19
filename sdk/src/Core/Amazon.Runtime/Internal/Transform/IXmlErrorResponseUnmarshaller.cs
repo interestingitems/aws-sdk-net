@@ -29,17 +29,16 @@ namespace Amazon.Runtime.Internal.Transform
     /// in the XML stream goes into what members of an object. 
     /// </summary>
     /// <typeparam name="TUnmarshaller">The type of object the unmarshaller returns</typeparam>
-    /// <typeparam name="TUnmarshalleContext">The type of the XML unmashaller context, which contains the
-    /// state during parsing of the XML stream. Usually an instance of 
-    /// <c>Amazon.Runtime.Internal.Transform.UnmarshallerContext</c>.</typeparam>
-    public interface IErrorResponseUnmarshaller<TUnmarshaller, TUnmarshalleContext> : IUnmarshaller<TUnmarshaller, TUnmarshalleContext>
+    /// <typeparam name="TXmlUnmarshallerContext">The type of the XML unmashaller context, which contains the
+    /// state during parsing of the XML stream.</typeparam>
+    public interface IXmlErrorResponseUnmarshaller<TUnmarshaller, TXmlUnmarshallerContext> : IXmlUnmarshaller<TUnmarshaller, TXmlUnmarshallerContext>
     {
         /// <summary>
         /// Given the current position in the XML stream, extract a T.
         /// </summary>
         /// <param name="input">The XML parsing context</param>
-        /// <param name="errorResponse"></param>
+        /// <param name="errorResponse">The error response</param>
         /// <returns>An object of type T populated with data from the XML stream.</returns>
-        TUnmarshaller Unmarshall(TUnmarshalleContext input, ErrorResponse errorResponse);
+        TUnmarshaller Unmarshall(XmlUnmarshallerContext input, ErrorResponse errorResponse);
     }
 }
