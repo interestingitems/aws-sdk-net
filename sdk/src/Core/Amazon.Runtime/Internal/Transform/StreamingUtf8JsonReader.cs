@@ -41,12 +41,15 @@ namespace Amazon.Runtime.Internal.Transform
         }
 
         private Stream _stream;
+        // due to all the resizing that happens with the byte array, pooling is not used here because the
+        // byte array returned by Array.Resize is not owned by the pool.
         private byte[] _buffer;
 
         public StreamingUtf8JsonReader(Stream stream)
         {
             _stream = stream;
-            _buffer = ArrayPool<byte>.Shared.Rent(4096);
+            // the default for STJ's deserializer is 16,384 but we'll leave this at 4096 for now.
+            _buffer = new byte[4096];
             // need to initialize the reader even if the buffer is empty because auto-default of unassigned fields is only 
             // supported in C# 11+
             _reader = new Utf8JsonReader(_buffer);
@@ -95,10 +98,15 @@ namespace Amazon.Runtime.Internal.Transform
         /// <returns>true if there is more data, false otherwise.</returns>
         public bool Read()
         {
+            // hasMoreData can return false if the value starts in one buffer and leaks into the next buffer
             bool hasMoreData = _reader.Read();
-            if (!hasMoreData)
+
+            while (!hasMoreData)
             {
                 GetMoreBytesFromStream(_stream, ref _buffer, ref _reader);
+                if (_reader.IsFinalBlock)
+                    break;
+
                 hasMoreData = _reader.Read();
             }
 
@@ -109,24 +117,31 @@ namespace Amazon.Runtime.Internal.Transform
         private static void GetMoreBytesFromStream(Stream stream, ref byte[] buffer, ref Utf8JsonReader reader)
         {
             int bytesRead;
+            bool resized = false;
+            // if Read() returned false and we are here that means that we couldn't fully parse the JSON token 
+            // because it was too large to fit in the remainder of the buffer.
             if (reader.BytesConsumed < buffer.Length)
             {
-                ReadOnlySpan<byte> leftover = buffer.AsSpan((int)reader.BytesConsumed);
+                ReadOnlySpan<byte> leftover = buffer.AsSpan().Slice((int)reader.BytesConsumed);
+                int previousBufferLength = buffer.Length;
 
                 if (leftover.Length == buffer.Length)
                 {
+                    resized = true;
                     Array.Resize(ref buffer, buffer.Length * 2);
                 }
 
                 leftover.CopyTo(buffer);
                 bytesRead = stream.Read(buffer, leftover.Length, buffer.Length - leftover.Length);
+                // remove null bytes if they exist, since we don't know when the stream will end and we could have doubled the buffer size.
+                // otherwise the json reader will throw an exception.
+                if (resized)
+                    Array.Resize(ref buffer, bytesRead + previousBufferLength);
             }
             else
             {
                 bytesRead = stream.Read(buffer, 0, buffer.Length);
             }
-            if (bytesRead == 0)
-                ArrayPool<byte>.Shared.Return(buffer);
 
             reader = new Utf8JsonReader(buffer, isFinalBlock: bytesRead == 0, reader.CurrentState);
         }
