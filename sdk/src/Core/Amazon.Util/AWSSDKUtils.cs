@@ -37,7 +37,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using Amazon.Runtime.Endpoints;
 using ThirdParty.RuntimeBackports;
-using Amazon.Runtime.Internal.Transform;
 
 #if AWS_ASYNC_API
 using System.Threading.Tasks;
