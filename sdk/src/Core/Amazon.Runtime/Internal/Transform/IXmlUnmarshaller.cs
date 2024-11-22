@@ -20,7 +20,6 @@ using System.Net;
 using System.Xml;
 using System.IO;
 using Amazon.Util;
-using System.Text.Json;
 
 namespace Amazon.Runtime.Internal.Transform
 {
