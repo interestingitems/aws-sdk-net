@@ -21,7 +21,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Amazon.Runtime.Internal.Transform
+namespace Amazon.Runtime.Internal.Util
 {
     /// <summary>
     /// A wrapper around Utf8JsonReader that can handle reading from a stream.
@@ -41,15 +41,15 @@ namespace Amazon.Runtime.Internal.Transform
         }
 
         private Stream _stream;
-        // due to all the resizing that happens with the byte array, pooling is not used here because the
-        // byte array returned by Array.Resize is not owned by the pool.
         private byte[] _buffer;
 
         public StreamingUtf8JsonReader(Stream stream)
         {
+            if (stream is null)
+                throw new ArgumentException("Stream must not be null. Please initialize a stream and pass it into the constructor.");
+
             _stream = stream;
-            // the default for STJ's deserializer is 16,384 but we'll leave this at 4096 for now.
-            _buffer = new byte[4096];
+            _buffer = ArrayPool<byte>.Shared.Rent(AWSConfigs.StreamingUtf8JsonReaderBufferSize ?? 4096);
             // need to initialize the reader even if the buffer is empty because auto-default of unassigned fields is only 
             // supported in C# 11+
             _reader = new Utf8JsonReader(_buffer);
@@ -67,13 +67,10 @@ namespace Amazon.Runtime.Internal.Transform
             int start = 0;
             if (buffer.AsSpan().StartsWith(JsonConstants.Utf8Bom))
             {
-                // this additional copy only happens once if a UTF8 bom exists.
                 start += utf8BomLength;
                 bytesRead -= utf8BomLength;
-                Array.Copy(buffer, start, buffer, 0, bytesRead);
             }
-            Array.Clear(buffer, bytesRead, buffer.Length - bytesRead);
-            _reader = new Utf8JsonReader(buffer, isFinalBlock: bytesRead == 0, default);
+            _reader = new Utf8JsonReader(buffer.AsSpan(start, bytesRead), isFinalBlock: bytesRead == 0, default);
         }
 
         // Custom delegate to handle ref parameters
@@ -82,18 +79,17 @@ namespace Amazon.Runtime.Internal.Transform
         /// <summary>
         /// Method to allow passing the private _reader as ref. This is a hacky way to get around the error
         /// "a property or indexer may not be passed as an out or ref parameter". Use this when you need to pass
-        /// the Utf8JsonReader to a method that requires a ref parameter. <see cref="JsonUnmarshallerContext.ToJsonDocument(ref StreamingUtf8JsonReader)"/>
+        /// the Utf8JsonReader to a method that requires a ref parameter. <see cref="Amazon.Runtime.Internal.Transform.JsonUnmarshallerContext.ToJsonDocument(ref StreamingUtf8JsonReader)"/>
         /// for usage example.
         /// </summary>
         /// <param name="action">The custom delegate</param>
-
         public void PassReaderByRef(RefAction action)
         {
             action(ref _reader);
         }
 
         /// <summary>
-        /// The Reads data from the buffer and fetches more data from the stream to fill the buffer it more data exists.
+        /// Reads data from the buffer and fetches more data from the stream to fill the buffer it more data exists.
         /// </summary>
         /// <returns>true if there is more data, false otherwise.</returns>
         public bool Read()
@@ -104,6 +100,7 @@ namespace Amazon.Runtime.Internal.Transform
             while (!hasMoreData)
             {
                 GetMoreBytesFromStream(_stream, ref _buffer, ref _reader);
+
                 if (_reader.IsFinalBlock)
                     break;
 
@@ -111,39 +108,58 @@ namespace Amazon.Runtime.Internal.Transform
             }
 
             return hasMoreData;
-
         }
 
         private static void GetMoreBytesFromStream(Stream stream, ref byte[] buffer, ref Utf8JsonReader reader)
         {
             int bytesRead;
             bool resized = false;
-            // if Read() returned false and we are here that means that we couldn't fully parse the JSON token 
-            // because it was too large to fit in the remainder of the buffer.
+            int previousBufferLength = buffer.Length;
+
             if (reader.BytesConsumed < buffer.Length)
             {
+                // if Read() returned false and we are here inside this if block that means that we couldn't fully parse the JSON token 
+                // because it was too large to fit in the remainder of the buffer.
                 ReadOnlySpan<byte> leftover = buffer.AsSpan().Slice((int)reader.BytesConsumed);
-                int previousBufferLength = buffer.Length;
 
                 if (leftover.Length == buffer.Length)
                 {
                     resized = true;
-                    Array.Resize(ref buffer, buffer.Length * 2);
+                    // rent double the capacity, hopefully we never have to rent the maxValue but in case buffer.Length * 2 ends up greater 
+                    // we must protect against that
+                    var resizedBuffer = ArrayPool<byte>.Shared.Rent(Math.Min(int.MaxValue,buffer.Length * 2));
+                    buffer.AsSpan().CopyTo(resizedBuffer);
+                    ArrayPool<byte>.Shared.Return(buffer);
+                    buffer = resizedBuffer;
                 }
 
                 leftover.CopyTo(buffer);
                 bytesRead = stream.Read(buffer, leftover.Length, buffer.Length - leftover.Length);
-                // remove null bytes if they exist, since we don't know when the stream will end and we could have doubled the buffer size.
-                // otherwise the json reader will throw an exception.
+
                 if (resized)
-                    Array.Resize(ref buffer, bytesRead + previousBufferLength);
+                {
+                    var resizedSpan = buffer.AsSpan(0, bytesRead + previousBufferLength);
+                    reader = new Utf8JsonReader(resizedSpan, isFinalBlock: bytesRead == 0, reader.CurrentState);
+                    return;
+                }
             }
+
             else
             {
                 bytesRead = stream.Read(buffer, 0, buffer.Length);
             }
 
-            reader = new Utf8JsonReader(buffer, isFinalBlock: bytesRead == 0, reader.CurrentState);
+            if (bytesRead == 0)
+            {
+                // since we use IsFinalBlock to determine when to stop getting more data, we cannot return here and must return a reader with isFinalBlock set
+                ArrayPool<byte>.Shared.Return(buffer);
+                //we must set the buffer to null so that it isn't used in another process
+                buffer = null;
+                reader = new Utf8JsonReader(buffer, isFinalBlock: true, reader.CurrentState);
+                return;
+            }
+
+            reader = new Utf8JsonReader(buffer, isFinalBlock: false, reader.CurrentState);
         }
     }
 }

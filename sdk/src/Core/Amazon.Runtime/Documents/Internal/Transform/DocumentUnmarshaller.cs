@@ -20,6 +20,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text.Json;
 using Amazon.Runtime.Internal.Transform;
+using Amazon.Runtime.Internal.Util;
 
 namespace Amazon.Runtime.Documents.Internal.Transform
 {

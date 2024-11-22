@@ -14,6 +14,7 @@
  */
 
 using Amazon.Runtime.Internal;
+using Amazon.Runtime.Internal.Util;
 using System;
 using Amazon.Util;
 using System.Xml;

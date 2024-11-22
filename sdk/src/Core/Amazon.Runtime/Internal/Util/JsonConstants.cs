@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Amazon.Runtime.Internal.Transform
+namespace Amazon.Runtime.Internal.Util
 {
     /// <summary>
     /// Constants used in JSON unmarshalling.

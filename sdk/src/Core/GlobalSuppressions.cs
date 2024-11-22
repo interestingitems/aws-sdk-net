@@ -430,7 +430,7 @@ using System.Diagnostics.CodeAnalysis;
 [module: SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces", Scope = "type", Target = "Amazon.Runtime.Internal.Signer")]
 
 // Override Equals and operator equals on value types
-[module: SuppressMessage("Performance","CA1815:Override equals and operator equals on value types",Scope = "type",Target = "T:Amazon.Runtime.Internal.Transform.StreamingUtf8JsonReader")]
+[module: SuppressMessage("Performance","CA1815:Override equals and operator equals on value types",Scope = "type",Target = "T:Amazon.Runtime.Internal.Util.StreamingUtf8JsonReader")]
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1720:Identifier contains type name", Scope = "type", Target = "~T:ThirdParty.Json.LitJson.JsonType")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1010:Collections should implement generic interface", Scope = "type", Target = "~T:Amazon.MissingTypes.IOrderedDictionary")]
