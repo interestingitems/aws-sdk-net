@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ServiceClientGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "-sm monitoring;logs;dynamodb;ec2;s3;sns;sqs;json10-tests-client -sro"
+    }
+  }
+}

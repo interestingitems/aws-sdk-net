@@ -13,3 +13,5 @@ pwsh -File "/perf-test/sdk/test/Performance/storeBenchmarkOutput.ps1" /perf-test
 pwsh -File "/perf-test/sdk/test/Performance/storeBenchmarkOutput.ps1" /perf-test/sdk/test/Performance/EC2PerformanceBenchmarks/BenchmarkDotNet.Artifacts/results/AWSSDK.Benchmarks.SNSBenchmarks-report.csv
 pwsh -File "/perf-test/sdk/test/Performance/storeBenchmarkOutput.ps1" /perf-test/sdk/test/Performance/EC2PerformanceBenchmarks/BenchmarkDotNet.Artifacts/results/AWSSDK.Benchmarks.CloudwatchBenchmarks-report.csv
 pwsh -File "/perf-test/sdk/test/Performance/storeBenchmarkOutput.ps1" /perf-test/sdk/test/Performance/EC2PerformanceBenchmarks/BenchmarkDotNet.Artifacts/results/AWSSDK.Benchmarks.CloudwatchLogsBenchmarks-report.csv
+pwsh -File "/perf-test/sdk/test/Performance/storeBenchmarkOutput.ps1" /perf-test/sdk/test/Performance/EC2PerformanceBenchmarks/BenchmarkDotNet.Artifacts/results/AWSSDK.Benchmarks.UnmarshallingBenchmarks-report.csv
+pwsh -File "/perf-test/sdk/test/Performance/storeBenchmarkOutput.ps1" /perf-test/sdk/test/Performance/EC2PerformanceBenchmarks/BenchmarkDotNet.Artifacts/results/AWSSDK.Benchmarks.MarshallingBenchmarks-report.csv

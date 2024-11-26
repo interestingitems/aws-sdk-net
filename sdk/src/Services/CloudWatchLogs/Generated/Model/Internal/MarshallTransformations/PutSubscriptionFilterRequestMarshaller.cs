@@ -28,8 +28,8 @@ using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal.Util;
-using ThirdParty.Json.LitJson;
-
+using System.Text.Json;
+using System.Buffers;
 #pragma warning disable CS0612,CS0618
 namespace Amazon.CloudWatchLogs.Model.Internal.MarshallTransformations
 {
@@ -63,55 +63,59 @@ namespace Amazon.CloudWatchLogs.Model.Internal.MarshallTransformations
             request.HttpMethod = "POST";
 
             request.ResourcePath = "/";
-            using (MemoryStream memoryStream = new MemoryStream())
+#if NETCOREAPP3_1_OR_GREATER
+            ArrayBufferWriter<byte> arrayBufferWriter = new ArrayBufferWriter<byte>();
+            using Utf8JsonWriter writer = new Utf8JsonWriter(arrayBufferWriter);
+#else
+            using var memoryStream = new MemoryStream();
+            using Utf8JsonWriter writer = new Utf8JsonWriter(memoryStream);
+#endif
+            writer.WriteStartObject();
+            var context = new JsonMarshallerContext(request, writer);
+            if(publicRequest.IsSetDestinationArn())
             {
-                using (StreamWriter streamWriter = new InvariantCultureStreamWriter(memoryStream))
-                {
-                    JsonWriter writer = new JsonWriter(streamWriter);
-                    writer.Validate = false;
-                    writer.WriteObjectStart();
-                    var context = new JsonMarshallerContext(request, writer);
-                    if(publicRequest.IsSetDestinationArn())
-                    {
-                        context.Writer.WritePropertyName("destinationArn");
-                        context.Writer.Write(publicRequest.DestinationArn);
-                    }
-
-                    if(publicRequest.IsSetDistribution())
-                    {
-                        context.Writer.WritePropertyName("distribution");
-                        context.Writer.Write(publicRequest.Distribution);
-                    }
-
-                    if(publicRequest.IsSetFilterName())
-                    {
-                        context.Writer.WritePropertyName("filterName");
-                        context.Writer.Write(publicRequest.FilterName);
-                    }
-
-                    if(publicRequest.IsSetFilterPattern())
-                    {
-                        context.Writer.WritePropertyName("filterPattern");
-                        context.Writer.Write(publicRequest.FilterPattern);
-                    }
-
-                    if(publicRequest.IsSetLogGroupName())
-                    {
-                        context.Writer.WritePropertyName("logGroupName");
-                        context.Writer.Write(publicRequest.LogGroupName);
-                    }
-
-                    if(publicRequest.IsSetRoleArn())
-                    {
-                        context.Writer.WritePropertyName("roleArn");
-                        context.Writer.Write(publicRequest.RoleArn);
-                    }
-
-                    writer.WriteObjectEnd();
-                }
-
-                request.Content = memoryStream.ToArray();
+                context.Writer.WritePropertyName("destinationArn");
+                context.Writer.WriteStringValue(publicRequest.DestinationArn);
             }
+
+            if(publicRequest.IsSetDistribution())
+            {
+                context.Writer.WritePropertyName("distribution");
+                context.Writer.WriteStringValue(publicRequest.Distribution);
+            }
+
+            if(publicRequest.IsSetFilterName())
+            {
+                context.Writer.WritePropertyName("filterName");
+                context.Writer.WriteStringValue(publicRequest.FilterName);
+            }
+
+            if(publicRequest.IsSetFilterPattern())
+            {
+                context.Writer.WritePropertyName("filterPattern");
+                context.Writer.WriteStringValue(publicRequest.FilterPattern);
+            }
+
+            if(publicRequest.IsSetLogGroupName())
+            {
+                context.Writer.WritePropertyName("logGroupName");
+                context.Writer.WriteStringValue(publicRequest.LogGroupName);
+            }
+
+            if(publicRequest.IsSetRoleArn())
+            {
+                context.Writer.WritePropertyName("roleArn");
+                context.Writer.WriteStringValue(publicRequest.RoleArn);
+            }
+
+            writer.WriteEndObject();
+            writer.Flush();
+#if NETCOREAPP3_1_OR_GREATER
+            request.Content = arrayBufferWriter.WrittenMemory.ToArray();
+#else
+            request.Content = memoryStream.ToArray();
+#endif
+            
 
 
             return request;
