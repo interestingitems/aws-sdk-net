@@ -380,7 +380,7 @@ namespace Amazon.JsonProtocol.Model.Internal.MarshallTransformations
 #else
             request.Content = memoryStream.ToArray();
 #endif
-            Console.WriteLine(request.Content.Length);
+            
 
 
             return request;
