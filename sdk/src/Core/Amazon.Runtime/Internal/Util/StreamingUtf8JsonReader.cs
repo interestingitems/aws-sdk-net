@@ -49,15 +49,14 @@ namespace Amazon.Runtime.Internal.Util
                 throw new ArgumentException("Stream must not be null. Please initialize a stream and pass it into the constructor.");
 
             _stream = stream;
-            _buffer = ArrayPool<byte>.Shared.Rent(AWSConfigs.StreamingUtf8JsonReaderBufferSize ?? 4096);
+            // 300 bytes of padding to acocunt for stream.read() returning more bytes than requested sometimes
+            _buffer = ArrayPool<byte>.Shared.Rent( (AWSConfigs.StreamingUtf8JsonReaderBufferSize ?? 4096) + 300);
             // need to initialize the reader even if the buffer is empty because auto-default of unassigned fields is only 
             // supported in C# 11+
             _reader = new Utf8JsonReader(_buffer);
             HandleUtf8Bom(ref _buffer);
         }
 
-        // Since this is called in the constructor, the buffer is always filled and is gauranteed
-        // to be the first read. Since it is guaranteed to be the first read we can remove the bom if it exists.
         private void HandleUtf8Bom(ref byte[] buffer)
         {
             int utf8BomLength = JsonConstants.Utf8Bom.Length;
@@ -112,7 +111,7 @@ namespace Amazon.Runtime.Internal.Util
 
         private static void GetMoreBytesFromStream(Stream stream, ref byte[] buffer, ref Utf8JsonReader reader)
         {
-            int bytesRead;
+            int bytesRead = 0;
             bool resized = false;
             int previousBufferLength = buffer.Length;
 
@@ -127,14 +126,28 @@ namespace Amazon.Runtime.Internal.Util
                     resized = true;
                     // rent double the capacity, hopefully we never have to rent the maxValue but in case buffer.Length * 2 ends up greater 
                     // we must protect against that
-                    var resizedBuffer = ArrayPool<byte>.Shared.Rent(Math.Min(int.MaxValue,buffer.Length * 2));
+                    var resizedBuffer = ArrayPool<byte>.Shared.Rent(Math.Min(int.MaxValue, (buffer.Length * 2) + 300));
+                    Logger.GetLogger(typeof(StreamingUtf8JsonReader)).InfoFormat("Resizing buffer from {0} to {1}", buffer.Length, resizedBuffer.Length);
+                    
                     buffer.AsSpan().CopyTo(resizedBuffer);
                     ArrayPool<byte>.Shared.Return(buffer);
                     buffer = resizedBuffer;
                 }
-
+                
                 leftover.CopyTo(buffer);
-                bytesRead = stream.Read(buffer, leftover.Length, buffer.Length - leftover.Length);
+                int offset = leftover.Length;
+                int bytesToRead = buffer.Length - leftover.Length;
+                int cachedBytesToRead = bytesToRead;
+                // Stream.Read is not guaranteed to return all the data requested, so if the bytes read is less than what we requested,
+                // read again in case there is more data.
+                while (bytesToRead > 0)
+                {
+                    int read = stream.Read(buffer, offset, bytesToRead);
+                    if (read == 0) break; // End of stream
+                    offset += read;
+                    bytesToRead -= read;
+                    bytesRead += read;
+                }
 
                 if (resized)
                 {
@@ -151,9 +164,8 @@ namespace Amazon.Runtime.Internal.Util
 
             if (bytesRead == 0)
             {
-                // since we use IsFinalBlock to determine when to stop getting more data, we cannot return here and must return a reader with isFinalBlock set
                 ArrayPool<byte>.Shared.Return(buffer);
-                //we must set the buffer to null so that it isn't used in another process
+                //make sure buffer isn't used in another process
                 buffer = null;
                 reader = new Utf8JsonReader(buffer, isFinalBlock: true, reader.CurrentState);
                 return;
